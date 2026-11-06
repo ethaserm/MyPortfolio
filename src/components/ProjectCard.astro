@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { url, isoDate } from '../lib/url';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, summary, cover, status, tags, date, draft } = project.data;
+---
+
+<article class="card">
+  {cover && <Image src={cover} alt="" width={800} />}
+  <div class="card-body">
+    <div class="meta">
+      <span class={`chip status-${status}`}>{draft ? 'draft' : status}</span>
+      <time datetime={isoDate(date)}>{isoDate(date)}</time>
+    </div>
+    <h3><a href={url(`/projects/${project.id}`)}>{title}</a></h3>
+    <p>{summary}</p>
+    {tags.length > 0 && (
+      <div class="meta">
+        {tags.map((t) => <span>#{t}</span>)}
+      </div>
+    )}
+  </div>
+</article>

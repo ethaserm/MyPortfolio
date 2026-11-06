@@ -1,0 +1,30 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getLog } from '../../lib/content';
+import { url, isoDate } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const entries = await getLog();
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { title, date, project } = entry.data;
+const { Content } = await render(entry);
+---
+
+<Base title={title}>
+  <a class="back" href={url('/timeline')}>← Timeline</a>
+
+  <article class="prose">
+    <div class="meta">
+      <time datetime={isoDate(date)}>{isoDate(date)}</time>
+      {project && <a href={url(`/projects/${project.id}`)}>Project: {project.id}</a>}
+    </div>
+    <h1>{title}</h1>
+    <div class="body">
+      <Content />
+    </div>
+  </article>
+</Base>

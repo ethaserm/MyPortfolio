@@ -1,0 +1,73 @@
+---
+import '../styles/global.css';
+import { site, nav } from '../data/site';
+import { url } from '../lib/url';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.tagline } = Astro.props;
+const pageTitle = title ? `${title} · ${site.name}` : site.name;
+
+// Mark the current section in the nav (works with or without a base path).
+const trim = (p: string) => p.replace(/\/$/, '') || '/';
+const home = trim(url('/'));
+const here = trim(Astro.url.pathname);
+const isCurrent = (href: string) => {
+  const h = trim(url(href));
+  return h === home ? here === home : here === h || here.startsWith(`${h}/`);
+};
+
+// Footer date is the build date, so it refreshes on every deploy.
+const updated = new Date().toISOString().slice(0, 10);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href={url('/')}>{site.name}</a>
+        <nav aria-label="Main">
+          <ul>
+            {nav.map((item) => (
+              <li>
+                <a href={url(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <slot />
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>© {new Date().getFullYear()} {site.name} · Last updated {updated}</span>
+        <ul>
+          {site.email && <li><a href={`mailto:${site.email}`}>Email</a></li>}
+          {site.links.map((l) => <li><a href={l.href} rel="me noopener">{l.label}</a></li>)}
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

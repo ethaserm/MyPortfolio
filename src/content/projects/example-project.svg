@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c2410c"/>
+      <stop offset="1" stop-color="#7c2d12"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <circle cx="980" cy="140" r="220" fill="#fff" fill-opacity="0.08"/>
+  <circle cx="1080" cy="520" r="150" fill="#fff" fill-opacity="0.08"/>
+  <text x="80" y="340" font-family="system-ui, sans-serif" font-size="96" font-weight="700" fill="#fff">Example project</text>
+  <text x="80" y="410" font-family="system-ui, sans-serif" font-size="36" fill="#fff" fill-opacity="0.8">Replace this cover image</text>
+</svg>

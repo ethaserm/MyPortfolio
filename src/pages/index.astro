@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../data/site';
+import { getProjects, getLog } from '../lib/content';
+import { url, isoDate } from '../lib/url';
+
+const projects = await getProjects();
+const featured = projects.filter((p) => p.data.featured).slice(0, 6);
+const latest = (await getLog()).slice(0, 4);
+---
+
+<Base>
+  <section class="hero">
+    <h1>{site.name}</h1>
+    <p>{site.tagline}</p>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="section">
+      <div class="section-head">
+        <h2>Featured projects</h2>
+        <a href={url('/projects')}>All projects →</a>
+      </div>
+      <ul class="grid">
+        {featured.map((p) => <li><ProjectCard project={p} /></li>)}
+      </ul>
+    </section>
+  )}
+
+  {latest.length > 0 && (
+    <section class="section prose">
+      <div class="section-head">
+        <h2>Latest updates</h2>
+        <a href={url('/timeline')}>Full timeline →</a>
+      </div>
+      <ul class="entries">
+        {latest.map((e) => (
+          <li>
+            <time datetime={isoDate(e.data.date)}>{isoDate(e.data.date)}</time>
+            <div><a href={url(`/log/${e.id}`)}>{e.data.title}</a></div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>

@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getProjects } from '../../lib/content';
+
+const projects = await getProjects();
+---
+
+<Base title="Projects" description="Everything I've built, newest first.">
+  <h1>Projects</h1>
+  <p class="muted">Everything I've built, newest first.</p>
+
+  {projects.length === 0
+    ? <p>Nothing here yet. Add a Markdown file to <code>src/content/projects/</code>.</p>
+    : (
+      <ul class="grid">
+        {projects.map((p) => <li><ProjectCard project={p} /></li>)}
+      </ul>
+    )}
+</Base>

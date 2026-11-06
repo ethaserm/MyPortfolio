@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getProjects, getLog } from '../../lib/content';
+import { url, isoDate } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { title, summary, cover, status, tags, date, links } = project.data;
+const { Content } = await render(project);
+const updates = (await getLog()).filter((e) => e.data.project?.id === project.id);
+---
+
+<Base title={title} description={summary}>
+  <a class="back" href={url('/projects')}>← All projects</a>
+
+  <article>
+    <div class="prose">
+      <div class="meta">
+        <span class={`chip status-${status}`}>{status}</span>
+        <time datetime={isoDate(date)}>{isoDate(date)}</time>
+        {tags.map((t) => <span>#{t}</span>)}
+      </div>
+      <h1>{title}</h1>
+      <p class="muted">{summary}</p>
+      {links.length > 0 && (
+        <div class="btns">
+          {links.map((l) => <a class="btn" href={l.href} rel="noopener">{l.label} ↗</a>)}
+        </div>
+      )}
+    </div>
+
+    {cover && <Image class="cover" src={cover} alt="" width={1200} />}
+
+    <div class="prose body">
+      <Content />
+    </div>
+
+    {updates.length > 0 && (
+      <section class="section prose">
+        <h2>Updates</h2>
+        <ul class="entries">
+          {updates.map((e) => (
+            <li>
+              <time datetime={isoDate(e.data.date)}>{isoDate(e.data.date)}</time>
+              <div><a href={url(`/log/${e.id}`)}>{e.data.title}</a></div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Base>

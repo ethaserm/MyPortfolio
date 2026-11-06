@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import { getProjects, getLog } from '../lib/content';
+import { url, isoDate } from '../lib/url';
+
+// Projects and updates merged into one list, newest first, grouped by year.
+const items = [
+  ...(await getProjects()).map((p) => ({
+    kind: 'project',
+    date: p.data.date,
+    title: p.data.title,
+    summary: p.data.summary,
+    href: url(`/projects/${p.id}`),
+  })),
+  ...(await getLog()).map((e) => ({
+    kind: 'update',
+    date: e.data.date,
+    title: e.data.title,
+    summary: '',
+    href: url(`/log/${e.id}`),
+  })),
+].sort((a, b) => b.date.valueOf() - a.date.valueOf());
+
+const years = [...new Set(items.map((i) => i.date.getUTCFullYear()))];
+---
+
+<Base title="Timeline" description="Projects and updates, year by year.">
+  <div class="prose">
+    <h1>Timeline</h1>
+    <p class="muted">Projects and updates, year by year.</p>
+
+    {years.length === 0 && <p>Nothing here yet.</p>}
+
+    {years.map((year) => (
+      <section>
+        <h2 class="year">{year}</h2>
+        <ul class="entries">
+          {items.filter((i) => i.date.getUTCFullYear() === year).map((i) => (
+            <li>
+              <time datetime={isoDate(i.date)}>{isoDate(i.date)}</time>
+              <div>
+                <a href={i.href}>{i.title}</a><span class="kind">{i.kind}</span>
+                {i.summary && <p>{i.summary}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>
