@@ -1,7 +1,10 @@
 import { defineCollection, reference, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
+
+const area = z.enum(['app', 'game', 'video', 'learning']);
 
 // One Markdown file per project. The filename becomes the URL: my-app.md -> /projects/my-app
+// A copy-me starting point lives in templates/project.md (outside this folder, so it isn't published).
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: ({ image }) =>
@@ -9,7 +12,7 @@ const projects = defineCollection({
       title: z.string(),
       summary: z.string(), // one or two sentences, shown on cards
       date: z.coerce.date(), // YYYY-MM-DD: when you started it, or last meaningfully updated it
-      category: z.enum(['app', 'game', 'video', 'learning']).default('app'),
+      category: area.default('app'),
       status: z.enum(['active', 'shipped', 'completed', 'paused', 'archived', 'idea']).default('active'),
       tags: z.array(z.string()).default([]),
       featured: z.boolean().default(false), // featured projects appear on the home page
@@ -33,4 +36,21 @@ const log = defineCollection({
   }),
 });
 
-export const collections = { projects, log };
+// Short dated moments for the journey timeline, all in one file: src/data/journey.yaml.
+// Use this for quick facts (a repo created, a video published, something learned).
+// Anything that deserves a page of its own should be a project or a log entry instead.
+const journey = defineCollection({
+  loader: file('src/data/journey.yaml'),
+  schema: z.object({
+    date: z.coerce.date(),
+    title: z.string(),
+    category: area.default('app'),
+    note: z.string().optional(), // one sentence shown under the title
+    milestone: z.boolean().default(false), // true = shown as a bigger card
+    href: z.string().url().optional(), // external link, e.g. the GitHub repo
+    project: reference('projects').optional(), // links the moment to a project page
+    tags: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { projects, log, journey };

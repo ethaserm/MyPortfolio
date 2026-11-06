@@ -8,8 +8,9 @@ Live at https://ethaserm.github.io/MyPortfolio/
 
 | I want to… | Do this |
 | --- | --- |
-| Add a project | Create `src/content/projects/my-project.md` (copy `example-project.md`). The filename is the URL. |
-| Log a milestone or year-end note | Create `src/content/log/YYYY-MM-DD-short-title.md`. Add `project: my-project` to link it to a project. |
+| Add a project | Copy `templates/project.md` to `src/content/projects/my-project.md`. The filename is the URL. |
+| Add a quick moment to the timeline (a repo created, a video published, something learned) | Add an entry to `src/data/journey.yaml`. The format is explained at the top of that file. |
+| Write up a milestone or year-end note | Create `src/content/log/YYYY-MM-DD-short-title.md`. Add `project: my-project` to link it to a project. |
 | Update an existing project | Edit its file and bump `date`. |
 | Change name, tagline, "Now" line, links | Edit `src/data/site.ts`. |
 | Rewrite the About page | Edit `src/data/about.md`. |
@@ -86,7 +87,21 @@ The `github-pages` environment only accepts deploys from `main` (Settings → En
 - **Content is portable.** It's all Markdown and front matter, so you could move to another framework without rewriting anything.
 - **Few dependencies.** Only `astro`. Once a year, run `npm update`, then `npm run build` to confirm it still works.
 - **No external fonts, scripts or services.** Nothing to break when a third party shuts down.
-- **Delete the examples.** The `example-*.md` projects are placeholders. Replace or delete them as you add real work.
+- **Check before publishing.** This site is public. Never paste raw notes or chat logs into it: leave out keys, private repositories, other people's names and anything you wouldn't put on a poster.
+
+## Links inside Markdown
+
+To link to another page of this site from Markdown, use a **relative** link such as `[Timeline](../timeline/)` or `[My app](../my-app/)`, not a root link like `/timeline`. Root links don't know about GitHub Pages' sub-path and would 404. `npm run build` checks every internal link and fails if one is broken, so a mistake can't get published.
+
+## The timeline
+
+`/timeline` merges three sources into one scrollable page, grouped by month, newest first:
+
+- **Projects** (`src/content/projects/`) appear as cards.
+- **Moments** (`src/data/journey.yaml`) are short dated entries. Set `milestone: true` for a bigger card, `href` to link out, and `project:` to tie a moment to a project page.
+- **Updates** (`src/content/log/`) are written-up notes.
+
+Visitors can filter by area and jump to any month. With JavaScript off, everything still shows.
 
 ## Structure
 
@@ -94,9 +109,11 @@ The `github-pages` environment only accepts deploys from `main` (Settings → En
 src/
   content/projects/   one .md per project
   content/log/        one .md per update
+  data/journey.yaml   short dated moments for the timeline
   data/site.ts        name, tagline, "Now" line, links, nav
   data/about.md       About page text
   lib/categories.ts   the four areas
   pages/              routes (home, projects, areas, timeline, about)
   components/ layouts/ styles/ lib/
+templates/project.md  copy-me starting point for a new project (not published)
 ```

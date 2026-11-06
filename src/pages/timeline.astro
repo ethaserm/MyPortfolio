@@ -1,57 +1,141 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import { categories, type Category } from '../lib/categories';
-import { getProjects, getLog } from '../lib/content';
-import { url, isoDate } from '../lib/url';
+import { categories, categoryKeys } from '../lib/categories';
+import { getTimeline, type TimelineItem } from '../lib/content';
+import { isoDate } from '../lib/url';
 
-type Item = { kind: string; category?: Category; date: Date; title: string; summary: string; href: string };
+// Projects, updates and short moments merged into one list, newest first, grouped by month.
+const items = await getTimeline();
 
-// Projects and updates merged into one list, newest first, grouped by year.
-const items: Item[] = [
-  ...(await getProjects()).map((p) => ({
-    kind: categories[p.data.category].label,
-    category: p.data.category,
-    date: p.data.date,
-    title: p.data.title,
-    summary: p.data.summary,
-    href: url(`/projects/${p.id}`),
-  })),
-  ...(await getLog()).map((e) => ({
-    kind: 'Update',
-    date: e.data.date,
-    title: e.data.title,
-    summary: '',
-    href: url(`/log/${e.id}`),
-  })),
-].sort((a, b) => b.date.valueOf() - a.date.valueOf());
+const monthKey = (d: Date) => `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+const monthName = (key: string, style: 'long' | 'short') =>
+  new Date(`${key}-01T00:00:00Z`).toLocaleString('en-GB', { month: style, year: 'numeric', timeZone: 'UTC' });
 
-const years = [...new Set(items.map((i) => i.date.getUTCFullYear()))];
+const months: { key: string; items: TimelineItem[] }[] = [];
+for (const item of items) {
+  const key = monthKey(item.date);
+  const current = months[months.length - 1];
+  if (current?.key === key) current.items.push(item);
+  else months.push({ key, items: [item] });
+}
+
+const counts = Object.fromEntries(
+  categoryKeys.map((k) => [k, items.filter((i) => i.category === k).length]),
+);
+const projectCount = items.filter((i) => i.kind === 'project').length;
+const first = items[items.length - 1]?.date;
+const last = items[0]?.date;
 ---
 
-<Base title="Timeline" description="Projects and updates, year by year.">
-  <div class="prose">
+<Base title="Timeline" description="My journey so far, month by month: projects, games, videos and things I learned.">
+  <div class="timeline">
     <h1>Timeline</h1>
-    <p class="lede">Projects and updates, year by year.</p>
+    <p class="lede">My journey so far, month by month.</p>
 
-    {years.length === 0 && <p>Nothing here yet.</p>}
+    {items.length > 0 && (
+      <p class="stats">
+        <span><strong>{items.length}</strong> moments</span>
+        <span><strong>{projectCount}</strong> projects</span>
+        {first && last && <span>{isoDate(first)} → {isoDate(last)}</span>}
+      </p>
+    )}
 
-    {years.map((year) => (
-      <section>
-        <h2 class="year">{year}</h2>
-        <ul class="entries">
-          {items.filter((i) => i.date.getUTCFullYear() === year).map((i) => (
-            <li>
-              <time datetime={isoDate(i.date)}>{isoDate(i.date)}</time>
-              <div data-cat={i.category}>
-                <a href={i.href}>{i.title}</a>
-                <span class="kind">{i.category && <Icon name={i.category} size={13} />}{i.kind}</span>
-                {i.summary && <p>{i.summary}</p>}
+    {/* Filter bar: hidden until the script below runs, so the page works fully without JavaScript. */}
+    <div class="filters" data-filters hidden role="group" aria-label="Filter the timeline by area">
+      <button type="button" data-filter="all" aria-pressed="true">All <span class="count">{items.length}</span></button>
+      {categoryKeys.map((key) => (
+        <button type="button" data-filter={key} data-cat={key} aria-pressed="false">
+          <Icon name={key} size={15} />{categories[key].label} <span class="count">{counts[key]}</span>
+        </button>
+      ))}
+    </div>
+    <p class="sr-only" role="status" aria-live="polite" data-filter-status></p>
+
+    {months.length > 1 && (
+      <nav class="jump" aria-label="Jump to a month">
+        {months.map((m) => <a href={`#m-${m.key}`} data-month={m.key}>{monthName(m.key, 'short')}</a>)}
+      </nav>
+    )}
+
+    {items.length === 0 && <p>Nothing here yet.</p>}
+
+    {months.map((m) => (
+      <section class="month" id={`m-${m.key}`} data-month={m.key} aria-labelledby={`h-${m.key}`}>
+        <h2 class="month-head" id={`h-${m.key}`}>
+          {monthName(m.key, 'long')}
+          <span class="count">{m.items.length}</span>
+        </h2>
+        <ol class="rail">
+          {m.items.map((i) => (
+            <li class:list={['tl-item', { 'is-big': i.milestone }]} data-cat={i.category} data-kind={i.kind}>
+              <span class="tl-dot" aria-hidden="true"></span>
+              <div class="tl-body">
+                <div class="meta">
+                  <time datetime={isoDate(i.date)}>{isoDate(i.date)}</time>
+                  {i.category && <span class="cat"><Icon name={i.category} size={13} />{categories[i.category].label}</span>}
+                  {i.kind === 'project' && <span class="chip">Project</span>}
+                  {i.kind === 'update' && <span class="chip">Update</span>}
+                </div>
+                <h3 class="tl-title">
+                  {i.href
+                    ? <a href={i.href} rel={i.external ? 'noopener' : undefined}>{i.title}{i.external ? ' ↗' : ''}</a>
+                    : i.title}
+                </h3>
+                {i.summary && <p class="tl-note">{i.summary}</p>}
+                {(i.tags.length > 0 || (i.project && i.kind !== 'project')) && (
+                  <div class="meta tl-foot">
+                    {i.project && i.kind !== 'project' && <a href={i.project.href}>↳ {i.project.title}</a>}
+                    {i.tags.map((t) => <span>#{t}</span>)}
+                  </div>
+                )}
               </div>
             </li>
           ))}
-        </ul>
+        </ol>
       </section>
     ))}
   </div>
 </Base>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-filters]');
+
+  if (bar) {
+    bar.hidden = false;
+    const buttons = bar.querySelectorAll<HTMLButtonElement>('button[data-filter]');
+    const items = document.querySelectorAll<HTMLElement>('.tl-item');
+    const months = document.querySelectorAll<HTMLElement>('.month');
+    const jumps = document.querySelectorAll<HTMLElement>('.jump a');
+    const status = document.querySelector<HTMLElement>('[data-filter-status]');
+    const valid = new Set(Array.from(buttons, (b) => b.dataset.filter));
+
+    function apply(area: string) {
+      let shown = 0;
+      items.forEach((li) => {
+        const match = area === 'all' || li.dataset.cat === area;
+        li.hidden = !match;
+        if (match) shown++;
+      });
+      const live = new Set<string>();
+      months.forEach((m) => {
+        const any = m.querySelector('.tl-item:not([hidden])') !== null;
+        m.hidden = !any;
+        if (any && m.dataset.month) live.add(m.dataset.month);
+      });
+      jumps.forEach((a) => { a.hidden = !live.has(a.dataset.month ?? ''); });
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === area)));
+      if (status) status.textContent = area === 'all' ? '' : `Showing ${shown} of ${items.length} moments`;
+
+      const url = new URL(location.href);
+      if (area === 'all') url.searchParams.delete('area');
+      else url.searchParams.set('area', area);
+      history.replaceState(null, '', url);
+    }
+
+    buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter ?? 'all')));
+
+    const wanted = new URLSearchParams(location.search).get('area');
+    if (wanted && valid.has(wanted)) apply(wanted);
+  }
+</script>
