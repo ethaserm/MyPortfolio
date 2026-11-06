@@ -5,4 +5,5 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: process.env.SITE || 'https://ethaserm.github.io',
   base: process.env.BASE || '/',
+  trailingSlash: 'always', // pages live at /name/, which keeps relative links in Markdown reliable
 });

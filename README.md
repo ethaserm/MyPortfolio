@@ -89,6 +89,10 @@ The `github-pages` environment only accepts deploys from `main` (Settings → En
 - **No external fonts, scripts or services.** Nothing to break when a third party shuts down.
 - **Check before publishing.** This site is public. Never paste raw notes or chat logs into it: leave out keys, private repositories, other people's names and anything you wouldn't put on a poster.
 
+## Links inside Markdown
+
+To link to another page of this site from Markdown, use a **relative** link such as `[Timeline](../timeline/)` or `[My app](../my-app/)`, not a root link like `/timeline`. Root links don't know about GitHub Pages' sub-path and would 404. `npm run build` checks every internal link and fails if one is broken, so a mistake can't get published.
+
 ## The timeline
 
 `/timeline` merges three sources into one scrollable page, grouped by month, newest first:

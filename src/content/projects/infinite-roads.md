@@ -6,13 +6,17 @@ category: video
 status: active
 tags: [youtube, stickman, storytelling, automation, AI]
 featured: true
+video: https://youtu.be/sPHSWtq-OUI
+links:
+  - label: Watch on YouTube
+    href: https://www.youtube.com/@infiniteroadstories
 ---
 
 Infinite Roads is a stickman animation channel. Each video is a roughly 10-minute survival story told in the second person: *"You..."* It follows Day 1 to the last day, uses real facts, and builds a mystery that escalates and never fully explains itself, ending on a cliffhanger. The format is inspired by the big stickman survival channels.
 
 ## The videos
 
-- **Video 1: EMP Attack Survival, 30 Days.** Public since 2026-10-11.
+- **Video 1: EMP Attack Survival, 30 Days.** Public since 2026-10-11, and the one embedded above.
 - **Video 2: Zombie Outbreak, 30 Days in an Apartment Block.** Scheduled for 2026-10-14.
 - **A backup: Nuclear Winter Survival, 1 Year.** Uploaded privately and held back.
 - **Next: Supervolcano Survival, 1 Year**, the first video made with the new hook rules and sound effects.
