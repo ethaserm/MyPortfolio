@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+import { categories } from '../lib/categories';
 import { url, isoDate } from '../lib/url';
 
 interface Props {
@@ -8,22 +10,25 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, summary, cover, status, tags, date, draft } = project.data;
+const { title, summary, cover, category, status, tags, date, draft } = project.data;
 ---
 
-<article class="card">
-  {cover && <Image src={cover} alt="" width={800} />}
+<article class="card" data-cat={category}>
+  <div class="card-media">
+    {cover
+      ? <Image src={cover} alt="" width={800} />
+      : <div class="card-fallback" aria-hidden="true"><Icon name={category} size={52} /></div>}
+  </div>
   <div class="card-body">
-    <div class="meta">
+    <div class="meta between">
+      <span class="cat"><Icon name={category} size={15} />{categories[category].label}</span>
       <span class={`chip status-${status}`}>{draft ? 'draft' : status}</span>
-      <time datetime={isoDate(date)}>{isoDate(date)}</time>
     </div>
     <h3><a href={url(`/projects/${project.id}`)}>{title}</a></h3>
     <p>{summary}</p>
-    {tags.length > 0 && (
-      <div class="meta">
-        {tags.map((t) => <span>#{t}</span>)}
-      </div>
-    )}
+    <div class="meta between foot">
+      <span class="tags">{tags.slice(0, 3).map((t) => <span>#{t}</span>)}</span>
+      <time datetime={isoDate(date)}>{isoDate(date)}</time>
+    </div>
   </div>
 </article>

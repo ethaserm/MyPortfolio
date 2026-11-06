@@ -1,14 +1,21 @@
 ---
 import Base from '../../layouts/Base.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import CategoryNav from '../../components/CategoryNav.astro';
+import { categoryKeys, type Category } from '../../lib/categories';
 import { getProjects } from '../../lib/content';
 
 const projects = await getProjects();
+const counts = Object.fromEntries(
+  categoryKeys.map((k) => [k, projects.filter((p) => p.data.category === k).length]),
+) as Record<Category, number>;
 ---
 
 <Base title="Projects" description="Everything I've built, newest first.">
   <h1>Projects</h1>
-  <p class="muted">Everything I've built, newest first.</p>
+  <p class="lede">Everything I've built, newest first.</p>
+
+  <CategoryNav current="all" counts={counts} total={projects.length} />
 
   {projects.length === 0
     ? <p>Nothing here yet. Add a Markdown file to <code>src/content/projects/</code>.</p>

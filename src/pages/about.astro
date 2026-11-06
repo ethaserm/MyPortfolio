@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
 // The About text lives in Markdown so it's easy to rewrite as you change.
 import { Content } from '../data/about.md';
 ---
@@ -7,8 +8,19 @@ import { Content } from '../data/about.md';
 <Base title="About">
   <article class="prose">
     <h1>About</h1>
+    {site.now && <p class="now">Now: {site.now}</p>}
     <div class="body">
       <Content />
     </div>
+
+    {(site.email || site.links.length > 0) && (
+      <>
+        <h2 style="margin-top:2.5rem">Find me</h2>
+        <ul class="find-me">
+          {site.email && <li><a class="btn" href={`mailto:${site.email}`}>Email</a></li>}
+          {site.links.map((l) => <li><a class="btn ghost" href={l.href} rel="me noopener">{l.label} ↗</a></li>)}
+        </ul>
+      </>
+    )}
   </article>
 </Base>

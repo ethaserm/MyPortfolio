@@ -2,7 +2,10 @@
 import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { categories } from '../../lib/categories';
 import { getProjects, getLog } from '../../lib/content';
+import { youtubeId } from '../../lib/video';
 import { url, isoDate } from '../../lib/url';
 
 export async function getStaticPaths() {
@@ -11,35 +14,63 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const { title, summary, cover, status, tags, date, links } = project.data;
+const { title, summary, cover, category, status, tags, date, links, video, gallery } = project.data;
 const { Content } = await render(project);
 const updates = (await getLog()).filter((e) => e.data.project?.id === project.id);
+const videoId = video ? youtubeId(video) : null;
 ---
 
 <Base title={title} description={summary}>
   <a class="back" href={url('/projects')}>← All projects</a>
 
-  <article>
-    <div class="prose">
+  <article data-cat={category}>
+    <div class="prose intro">
       <div class="meta">
+        <a class="cat" href={url(`/projects/category/${category}`)} style="text-decoration:none">
+          <Icon name={category} size={15} />{categories[category].label}
+        </a>
         <span class={`chip status-${status}`}>{status}</span>
         <time datetime={isoDate(date)}>{isoDate(date)}</time>
-        {tags.map((t) => <span>#{t}</span>)}
       </div>
-      <h1>{title}</h1>
-      <p class="muted">{summary}</p>
+      <h1 style="margin-top:0.6rem">{title}</h1>
+      <p class="lede">{summary}</p>
       {links.length > 0 && (
         <div class="btns">
-          {links.map((l) => <a class="btn" href={l.href} rel="noopener">{l.label} ↗</a>)}
+          {links.map((l, i) => <a class={i === 0 ? 'btn' : 'btn ghost'} href={l.href} rel="noopener">{l.label} ↗</a>)}
         </div>
       )}
     </div>
 
-    {cover && <Image class="cover" src={cover} alt="" width={1200} />}
+    {videoId
+      ? (
+        <div class="embed">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+            title={`${title}: video`}
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="encrypted-media; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      )
+      : cover && <Image class="cover" src={cover} alt="" width={1200} />}
 
     <div class="prose body">
       <Content />
     </div>
+
+    {gallery.length > 0 && (
+      <ul class="gallery" aria-label="Screenshots">
+        {gallery.map((g) => <li><Image src={g.image} alt={g.alt} width={800} /></li>)}
+      </ul>
+    )}
+
+    {tags.length > 0 && (
+      <div class="meta prose" style="margin-top:2rem">
+        {tags.map((t) => <span>#{t}</span>)}
+      </div>
+    )}
 
     {updates.length > 0 && (
       <section class="section prose">

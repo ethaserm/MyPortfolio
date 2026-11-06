@@ -1,19 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { categories, type Category } from '../lib/categories';
 import { getProjects, getLog } from '../lib/content';
 import { url, isoDate } from '../lib/url';
 
+type Item = { kind: string; category?: Category; date: Date; title: string; summary: string; href: string };
+
 // Projects and updates merged into one list, newest first, grouped by year.
-const items = [
+const items: Item[] = [
   ...(await getProjects()).map((p) => ({
-    kind: 'project',
+    kind: categories[p.data.category].label,
+    category: p.data.category,
     date: p.data.date,
     title: p.data.title,
     summary: p.data.summary,
     href: url(`/projects/${p.id}`),
   })),
   ...(await getLog()).map((e) => ({
-    kind: 'update',
+    kind: 'Update',
     date: e.data.date,
     title: e.data.title,
     summary: '',
@@ -27,7 +32,7 @@ const years = [...new Set(items.map((i) => i.date.getUTCFullYear()))];
 <Base title="Timeline" description="Projects and updates, year by year.">
   <div class="prose">
     <h1>Timeline</h1>
-    <p class="muted">Projects and updates, year by year.</p>
+    <p class="lede">Projects and updates, year by year.</p>
 
     {years.length === 0 && <p>Nothing here yet.</p>}
 
@@ -38,8 +43,9 @@ const years = [...new Set(items.map((i) => i.date.getUTCFullYear()))];
           {items.filter((i) => i.date.getUTCFullYear() === year).map((i) => (
             <li>
               <time datetime={isoDate(i.date)}>{isoDate(i.date)}</time>
-              <div>
-                <a href={i.href}>{i.title}</a><span class="kind">{i.kind}</span>
+              <div data-cat={i.category}>
+                <a href={i.href}>{i.title}</a>
+                <span class="kind">{i.category && <Icon name={i.category} size={13} />}{i.kind}</span>
                 {i.summary && <p>{i.summary}</p>}
               </div>
             </li>
