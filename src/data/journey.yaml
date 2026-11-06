@@ -1,0 +1,288 @@
+# Short dated moments for the journey timeline. One entry each, any order.
+#
+#   id         unique, lowercase-with-dashes
+#   date       YYYY-MM-DD
+#   title      what happened
+#   category   app | game | video | learning
+#   note       optional, one sentence under the title
+#   milestone  optional, true = bigger card
+#   href       optional external link (e.g. a GitHub repo)
+#   project    optional, filename of a project page without .md
+#   tags       optional list
+#
+# Sources: GitHub repo creation dates, my Obsidian "Brain" notes, project notes.
+
+# ---------- April 2026 ----------
+- id: first-repo
+  date: 2026-04-06
+  title: ai-short-routine, my oldest repository
+  category: app
+  milestone: true
+  note: The earliest repository still on my GitHub account, a small HTML project.
+  href: https://github.com/ethaserm/ai-short-routine
+  project: small-tools
+  tags: [HTML]
+
+- id: money-hub
+  date: 2026-04-09
+  title: money-hub
+  category: app
+  href: https://github.com/ethaserm/money-hub
+  project: small-tools
+  tags: [HTML]
+
+- id: my-workout-routine
+  date: 2026-04-17
+  title: MyWorkoutRoutine
+  category: app
+  note: Kept working on it until late July.
+  href: https://github.com/ethaserm/MyWorkoutRoutine
+  project: small-tools
+  tags: [HTML]
+
+- id: daily-routine
+  date: 2026-04-22
+  title: DailyRoutine
+  category: app
+  href: https://github.com/ethaserm/DailyRoutine
+  project: small-tools
+  tags: [HTML]
+
+# ---------- May 2026 ----------
+- id: money-tracker
+  date: 2026-05-29
+  title: Money-Tracker
+  category: app
+  href: https://github.com/ethaserm/Money-Tracker
+  project: small-tools
+  tags: [HTML]
+
+# ---------- June 2026 ----------
+- id: blender
+  date: 2026-06-23
+  title: First Blender session
+  category: learning
+  note: Came back to it again in August.
+
+- id: youtube-dashboard
+  date: 2026-06-24
+  title: YouTube dashboard
+  category: video
+  note: A long working session on a YouTube dashboard.
+
+# ---------- July 2026 ----------
+- id: aria-renamed-jarvis
+  date: 2026-07-16
+  title: ARIA renamed JARVIS
+  category: app
+  project: jarvis
+
+- id: orb-rng-fusion
+  date: 2026-07-17
+  title: "Orb RNG: Fusion"
+  category: game
+  note: A short working session, 11 messages.
+
+- id: pushup-tracker
+  date: 2026-07-19
+  title: Pushup-Tracker
+  category: app
+  href: https://github.com/ethaserm/Pushup-Tracker
+  project: small-tools
+  tags: [HTML]
+
+- id: task-manager
+  date: 2026-07-25
+  title: Task-Manager
+  category: app
+  note: TypeScript, a new language for my repositories.
+  href: https://github.com/ethaserm/Task-Manager
+  project: small-tools
+  tags: [TypeScript]
+
+- id: screen-time-tracker
+  date: 2026-07-25
+  title: Screen time tracker
+  category: app
+  note: A 130-message build session on tracking screen time.
+
+# ---------- August 2026 ----------
+- id: timberfall
+  date: 2026-08-06
+  title: TimberFall
+  category: game
+  href: https://github.com/ethaserm/TimberFall
+  tags: [HTML]
+
+- id: ramen-bowl-floors
+  date: 2026-08-16
+  title: "My Ramen Bowl: floor replication"
+  category: game
+  note: A 95-message session.
+  project: my-ramen-bowl
+
+- id: ramen-bowl-economy
+  date: 2026-08-19
+  title: "My Ramen Bowl: economy and customers"
+  category: game
+  note: An 86-message session.
+  project: my-ramen-bowl
+
+- id: lifeos-repo
+  date: 2026-08-23
+  title: LifeOS repository created
+  category: app
+  note: Life tracking built into the Dynamic Island app, synced to the cloud.
+  href: https://github.com/ethaserm/LifeOS
+  project: atlas-life-os
+  tags: [JavaScript]
+
+- id: island-dictation
+  date: 2026-08-24
+  title: Voice dictation that works in any app
+  category: app
+  milestone: true
+  note: A "Dictate" orb that types what I say into whichever window I was using. Runs fully on my PC with whisper.cpp, so no API key and no cost.
+  project: dynamic-island-windows
+  tags: [whisper.cpp, local-AI]
+
+- id: stickman-fighting-game
+  date: 2026-08-25
+  title: Stickman fighting game idea
+  category: game
+
+- id: next-video-planning
+  date: 2026-08-28
+  title: Planning the next stickman video
+  category: video
+  note: The early video pipeline tracked everything in Notion. It moved to a Google Sheet in October.
+  project: infinite-roads
+
+# ---------- September 2026 ----------
+- id: island-fullscreen-fix
+  date: 2026-09-04
+  title: Fullscreen auto-hide took four rounds
+  category: app
+  milestone: true
+  note: Each version looked right on paper and failed on a real app, until the check combined window size, title bar and resize border.
+  project: dynamic-island-windows
+
+- id: atlas-voice-brainstorm
+  date: 2026-09-13
+  title: Voice brainstorm merged into ATLAS
+  category: app
+  note: A voice-call panel for talking ideas through, now part of the main app.
+  project: atlas-life-os
+
+- id: esagents-daily-emailer
+  date: 2026-09-13
+  title: ESAgents-Daily-Emailer
+  category: app
+  href: https://github.com/ethaserm/ESAgents-Daily-Emailer
+  project: es-agents
+
+- id: local-models
+  date: 2026-09-18
+  title: Experimenting with local AI models
+  category: learning
+  note: Tried running models on my own PC. Ollama and LM Studio stayed installed.
+
+- id: lead-topup-extension
+  date: 2026-09-23
+  title: Lead Top-Up Chrome extension
+  category: app
+  note: Adds businesses from Google Maps to the lead list in one click.
+  project: lead-finder-tools
+
+- id: yt-lead-finder
+  date: 2026-09-27
+  title: yt-lead-finder
+  category: app
+  note: Finds YouTube channels and emails them about video editing, using only the official YouTube Data API.
+  href: https://github.com/ethaserm/yt-lead-finder
+  project: lead-finder-tools
+  tags: [Python, GitHub Actions]
+
+# ---------- October 2026 ----------
+- id: marble-run-game
+  date: 2026-10-01
+  title: Marble-Run-Game
+  category: game
+  href: https://github.com/ethaserm/Marble-Run-Game
+  project: browser-games
+  tags: [HTML]
+
+- id: mini-golf-game
+  date: 2026-10-01
+  title: Mini-Golf-Game
+  category: game
+  href: https://github.com/ethaserm/Mini-Golf-Game
+  project: browser-games
+  tags: [HTML]
+
+- id: parkour-speedrun-game
+  date: 2026-10-02
+  title: 3D-parkour-speedrun-game
+  category: game
+  href: https://github.com/ethaserm/3D-parkour-speedrun-game
+  project: browser-games
+  tags: [HTML]
+
+- id: cod-clone
+  date: 2026-10-05
+  title: Cod-Clone
+  category: game
+  href: https://github.com/ethaserm/Cod-Clone
+  project: browser-games
+  tags: [HTML]
+
+- id: notion-to-sheets
+  date: 2026-10-08
+  title: Moved the video database from Notion to Google Sheets
+  category: video
+  project: infinite-roads
+
+- id: poly-track-clone
+  date: 2026-10-10
+  title: Poly-Track-Clone
+  category: game
+  href: https://github.com/ethaserm/Poly-Track-Clone
+  project: browser-games
+  tags: [JavaScript]
+
+- id: video-1-public
+  date: 2026-10-11
+  title: Video 1 goes public
+  category: video
+  milestone: true
+  note: '"EMP Attack Survival: 30 Days", the first video on the Infinite Roads channel.'
+  project: infinite-roads
+
+- id: hooks-and-sfx
+  date: 2026-10-13
+  title: Hook rules and sound effects added to the pipeline
+  category: video
+  note: Danger in the first sentence, a re-hook every 20 to 40 seconds, and a library of real in-story sounds.
+  project: infinite-roads
+
+- id: brain-drive-sync
+  date: 2026-10-13
+  title: The Brain syncs to Google Drive
+  category: learning
+  note: Chat-based AI can now read the same notes my coding sessions write.
+  project: obsidian-brain
+
+- id: video-2-scheduled
+  date: 2026-10-14
+  title: Video 2 scheduled
+  category: video
+  note: '"Zombie Outbreak: 30 Days in an Apartment Block", with new cuts of its Shorts.'
+  project: infinite-roads
+
+- id: golf-game
+  date: 2026-10-16
+  title: Golf-Game
+  category: game
+  href: https://github.com/ethaserm/Golf-Game
+  project: browser-games
+  tags: [JavaScript]

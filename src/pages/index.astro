@@ -4,7 +4,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../data/site';
 import { categories, categoryKeys } from '../lib/categories';
-import { getProjects, getLog } from '../lib/content';
+import { getProjects, getTimeline } from '../lib/content';
 import { url, isoDate } from '../lib/url';
 
 const projects = await getProjects();
@@ -13,7 +13,7 @@ const count = (key: string) => projects.filter((p) => p.data.category === key).l
 // Featured projects if any are marked, otherwise just the newest few.
 const featured = projects.filter((p) => p.data.featured).slice(0, 6);
 const showcase = featured.length > 0 ? featured : projects.slice(0, 3);
-const latest = (await getLog()).slice(0, 4);
+const latest = (await getTimeline()).slice(0, 5);
 ---
 
 <Base glow>
@@ -57,8 +57,8 @@ const latest = (await getLog()).slice(0, 4);
       <ul class="entries">
         {latest.map((e) => (
           <li>
-            <time datetime={isoDate(e.data.date)}>{isoDate(e.data.date)}</time>
-            <div><a href={url(`/log/${e.id}`)}>{e.data.title}</a></div>
+            <time datetime={isoDate(e.date)}>{isoDate(e.date)}</time>
+            <div>{e.href ? <a href={e.href}>{e.title}</a> : e.title}</div>
           </li>
         ))}
       </ul>
