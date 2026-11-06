@@ -12,6 +12,8 @@ gallery:
 links:
   - label: Source on GitHub
     href: https://github.com/ethaserm/Mini-Golf-Game
+archive: true
+featured: false
 ---
 
 A cheerful mini golf game with **three worlds and nine chunky holes**, built for the browser in 3D. The title screen has Play, Hole Select and Settings, and each hole opens with its name and par before you line up your putt, with a stroke counter in the corner.

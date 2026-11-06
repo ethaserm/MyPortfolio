@@ -1,0 +1,31 @@
+---
+// A "how it works" diagram, drawn from a project's `flow:` front matter.
+// `mini` is the compact version shown on a project's card in place of a screenshot.
+interface Props {
+  flow: { title?: string; steps: { label: string; note?: string }[] };
+  mini?: boolean;
+}
+
+const { flow, mini = false } = Astro.props;
+---
+
+{mini
+  ? (
+    <ol class="flow-mini" aria-label={flow.title ?? 'How it works'}>
+      {flow.steps.map((s) => <li>{s.label}</li>)}
+    </ol>
+  )
+  : (
+    <figure class="flow">
+      {flow.title && <figcaption class="figure-title">{flow.title}</figcaption>}
+      <ol class="flow-steps">
+        {flow.steps.map((s, i) => (
+          <li class="flow-step">
+            <span class="flow-num" aria-hidden="true">{i + 1}</span>
+            <strong>{s.label}</strong>
+            {s.note && <span class="flow-note">{s.note}</span>}
+          </li>
+        ))}
+      </ol>
+    </figure>
+  )}

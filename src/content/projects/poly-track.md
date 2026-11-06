@@ -5,7 +5,7 @@ date: 2026-10-10
 category: game
 status: shipped
 tags: [three.js, vite, racing, game-dev]
-featured: true
+featured: false
 cover: ../../assets/previews/poly-track-1.webp
 gallery:
   - image: ../../assets/previews/poly-track-2.webp
@@ -13,6 +13,7 @@ gallery:
 links:
   - label: Source on GitHub
     href: https://github.com/ethaserm/Poly-Track-Clone
+archive: true
 ---
 
 A browser recreation of **PolyTrack**, the low-poly time-trial racer by Kodub. You drive through loops, wall rides, jumps and boosters against the clock, chase medal times and your own ghost, watch replays, and build your own tracks in the editor. I built it from scratch with three.js and Vite. There are no asset files: every model, texture, sound and music note is generated in code.

@@ -2,25 +2,28 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Icon from './Icon.astro';
+import Flow from './Flow.astro';
 import type { Category } from '../lib/categories';
 
-// The picture for a project, in one of three treatments:
+// The picture for a project, in one of four treatments:
 //  - a screenshot, with a soft corner wash of the theme colours
 //  - a phone (portrait) screenshot, shown on a coloured panel
-//  - no image yet: a designed panel with the area's icon, so nothing is ever blank
+//  - no image but a `flow` diagram: a compact "how it works" chain on a coloured panel
+//  - nothing yet: a designed panel with the area's icon, so nothing is ever blank
 interface Props {
   cover?: ImageMetadata;
   category: Category;
   size?: 'card' | 'large';
+  flow?: { title?: string; steps: { label: string; note?: string }[] };
 }
 
-const { cover, category, size = 'card' } = Astro.props;
+const { cover, category, size = 'card', flow } = Astro.props;
 const portrait = cover ? cover.height > cover.width : false;
-const kind = !cover ? 'gen' : portrait ? 'phone' : 'shot-cover';
+const kind = cover ? (portrait ? 'phone' : 'shot-cover') : flow ? 'gen flowcover' : 'gen';
 ---
 
 <div class:list={['cover', kind, { 'cover-lg': size === 'large' }]}>
   {cover
     ? <Image src={cover} alt="" width={portrait ? 600 : size === 'large' ? 1200 : 800} />
-    : <Icon name={category} size={58} />}
+    : flow ? <Flow flow={flow} mini /> : <Icon name={category} size={58} />}
 </div>

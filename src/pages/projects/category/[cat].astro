@@ -3,11 +3,12 @@ import Base from '../../../layouts/Base.astro';
 import ProjectCard from '../../../components/ProjectCard.astro';
 import CategoryNav from '../../../components/CategoryNav.astro';
 import { categories, categoryKeys, type Category } from '../../../lib/categories';
-import { getProjects } from '../../../lib/content';
+import { getProjects, getVisibleCategories } from '../../../lib/content';
 
-// One page per area, built even when it's empty so the links on the home page never dead-end.
-export function getStaticPaths() {
-  return categoryKeys.map((cat) => ({ params: { cat } }));
+// One page per area that has something to show.
+export async function getStaticPaths() {
+  const shown = await getVisibleCategories();
+  return categoryKeys.filter((cat) => shown.has(cat)).map((cat) => ({ params: { cat } }));
 }
 
 const cat = Astro.params.cat as Category;

@@ -16,6 +16,8 @@ Live at https://ethaserm.github.io/MyPortfolio/
 | Rewrite the About page | Edit `src/data/about.md`. |
 | Hide something for now | Add `draft: true` to its front matter. Drafts show in `npm run dev` only. |
 | Retire a project | Set `status: archived`. Don't delete it: the timeline is the point. |
+| Tuck something away (still public, but not on the front pages) | Add `archive: true`. See "The archive" below. |
+| Refresh the "By the numbers" stats | Run `node scripts/update-stats.mjs`, then commit `src/data/stats.json`. |
 
 Dates are always `YYYY-MM-DD`. Push to `main` and the site redeploys itself.
 
@@ -30,6 +32,7 @@ category: app               # app | game | video | learning
 status: active              # active | shipped | completed | paused | archived | idea
 tags: [typescript, ai]
 featured: true              # show on the home page
+archive: false              # true = hidden from home, lists and timeline; lives at /projects/archive/
 cover: ./my-project.png     # image next to this file; optional
 video: https://youtu.be/XXXXXXXXXXX    # optional, embedded at the top of the page
 gallery:                    # optional screenshots
@@ -61,6 +64,32 @@ Projects without a `cover` get a tinted panel with the area's icon, so they stil
 ### Video embeds
 
 Paste any normal YouTube link (`watch?v=`, `youtu.be/` or `/shorts/`) into `video:`. It uses the privacy-friendly `youtube-nocookie.com` player and replaces the cover on the project page (the cover is still used on cards). Other video sites are ignored, so put those in `links` instead.
+
+### The archive
+
+Set `archive: true` on a project (or on a moment in `journey.yaml`) and it disappears from the home page, `/projects/`, the area pages and the timeline. Its own page still exists, and it is listed at `/projects/archive/`, which is linked only from the footer, so people find it by digging. An area with nothing left in it (Games, right now) vanishes from the area tiles and timeline filters on its own. Remove the flag and it all comes back.
+
+### Diagrams instead of screenshots
+
+When there is no screenshot worth showing (a background tool, a pipeline), add a diagram to the front matter. It draws as a card cover and as a section on the project page:
+
+```yaml
+flow:                       # a row of steps
+  title: How an entry travels
+  steps:
+    - label: Type or say it
+      note: Optional one-liner under the label
+    - label: File it
+
+segments:                   # a timeline split into parts, for a video or a talk
+  title: Where the time goes
+  end: 12:30
+  parts:
+    - label: Intro
+      from: 0:00
+    - label: The twist
+      from: 4:10
+```
 
 ## Run it locally
 
@@ -99,6 +128,10 @@ gallery:
 - **Portrait phone screenshots** (about 780×1688) are shown as a phone on a coloured panel.
 - **No image yet?** The project gets a designed panel with its area's icon, so nothing is ever blank. Add a `cover` whenever you have one.
 
+## By the numbers
+
+`src/data/stats.json` feeds the charts on the home and About pages (repos, commits by month, languages). Refresh it with `node scripts/update-stats.mjs` (needs network access to GitHub; `--dry` prints without writing). Commits made by bots are counted separately so they don't inflate the human total.
+
 ## Keeping it healthy over the years
 
 - **Content is portable.** It's all Markdown and front matter, so you could move to another framework without rewriting anything.
@@ -129,8 +162,10 @@ src/
   data/journey.yaml   short dated moments for the timeline
   data/site.ts        name, tagline, "Now" line, links, nav
   data/about.md       About page text
+  data/stats.json     numbers for the charts (see "By the numbers")
   lib/categories.ts   the four areas
-  pages/              routes (home, projects, areas, timeline, about)
+  pages/              routes (home, projects, archive, areas, timeline, about)
   components/ layouts/ styles/ lib/
+scripts/              check-links.mjs (runs after every build), update-stats.mjs
 templates/project.md  copy-me starting point for a new project (not published)
 ```

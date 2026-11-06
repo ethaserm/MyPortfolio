@@ -10,6 +10,20 @@ links:
     href: https://github.com/ethaserm/es-lead-finder
   - label: yt-lead-finder
     href: https://github.com/ethaserm/yt-lead-finder
+featured: false
+flow:
+  title: "From a business to an email"
+  steps:
+    - label: "Find it"
+      note: "A Python tool, or one click on Google Maps with my Chrome extension"
+    - label: "Queue it"
+      note: "Each business lands in a shared Google Sheet"
+    - label: "Send"
+      note: "Apps Script scripts send the emails in batches"
+    - label: "Track replies"
+      note: "Replies are tracked so nothing is missed"
+    - label: "Follow up"
+      note: "Quiet ones get a follow-up"
 ---
 
 Tools I built to find people worth contacting, for ES Agents and for video-editing outreach.

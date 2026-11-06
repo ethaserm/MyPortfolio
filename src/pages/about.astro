@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Stats from '../components/Stats.astro';
 import { site } from '../data/site';
 // The About text lives in Markdown so it's easy to rewrite as you change.
 import { Content } from '../data/about.md';
@@ -12,6 +13,9 @@ import { Content } from '../data/about.md';
     <div class="body">
       <Content />
     </div>
+
+    <h2 class="sect-head" style="margin-top:2.5rem">By the numbers</h2>
+    <Stats />
 
     {(site.email || site.links.length > 0) && (
       <>

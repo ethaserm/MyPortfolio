@@ -81,6 +81,7 @@
   date: 2026-07-17
   title: "Orb RNG: Fusion"
   category: game
+  archive: true
   note: A short working session, 11 messages.
 
 - id: pushup-tracker
@@ -134,6 +135,7 @@
   date: 2026-08-25
   title: Stickman fighting game idea
   category: game
+  archive: true
 
 - id: next-video-planning
   date: 2026-08-28
@@ -223,3 +225,56 @@
   category: video
   note: '"Zombie Outbreak: 30 Days in an Apartment Block", with new cuts of its Shorts.'
   project: infinite-roads
+
+# ---------- added from the Brain notes ----------
+- id: first-jarvis-dropped
+  date: 2026-06-26
+  title: Dropped the first Jarvis
+  category: app
+  note: A Python voice assistant with a wake word. I decided I didn't need it any more and asked what to build next.
+  project: jarvis
+
+- id: scrapped-life-os
+  date: 2026-08-31
+  title: Scrapped Life OS and started ATLAS
+  category: app
+  milestone: true
+  note: A week into a ten-tab app, I decided I didn't want tabs at all. A long interview about what I really wanted ended with one infinite canvas.
+  project: atlas-life-os
+
+- id: atlas-shared-brain
+  date: 2026-09-01
+  title: ATLAS shares a brain with my notes
+  category: app
+  note: It reads my AI memory notes from the Obsidian vault, and writes its own state back for my other tools.
+  project: atlas-life-os
+
+- id: atlas-stripped
+  date: 2026-09-16
+  title: ATLAS stripped back to the graph
+  category: app
+  milestone: true
+  note: The panels weren't fitting. I removed every box except the graph and the settings, and kept the full version backed up.
+  project: atlas-life-os
+
+- id: atlas-quick-log
+  date: 2026-09-18
+  title: ATLAS quick-log
+  category: app
+  note: Typed entries like "spent £12 lunch" now file into one simple feed.
+  project: atlas-life-os
+
+- id: studied-top-channel
+  date: 2026-10-07
+  title: Studied a top survival channel
+  category: learning
+  milestone: true
+  note: Broke a 1.6-million-view video down three ways before making my own.
+  project: studying-a-top-channel
+
+- id: caught-ai-by-ear
+  date: 2026-10-10
+  title: Caught an AI being wrong, by ear
+  category: learning
+  note: It said the channel used background music. Listening myself showed there is none.
+  project: studying-a-top-channel

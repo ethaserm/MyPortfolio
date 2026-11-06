@@ -5,6 +5,20 @@ date: 2026-10-07
 category: learning
 status: active
 tags: [obsidian, claude-code, hooks, notes, automation]
+featured: false
+flow:
+  title: "How the Brain fills itself"
+  steps:
+    - label: "I finish a chat"
+      note: "An AI coding chat or task ends"
+    - label: "A hook fires"
+      note: "A small script runs when the session closes"
+    - label: "Secrets come out"
+      note: "Keys and tokens are redacted on the way in"
+    - label: "It lands in Obsidian"
+      note: "The chat and its notes are saved and indexed, newest first"
+    - label: "It syncs to Drive"
+      note: "So chat-based AI can read the same notes"
 ---
 
 I wanted nothing forgotten. So I built a "Brain": an Obsidian vault that fills itself.

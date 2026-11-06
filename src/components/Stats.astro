@@ -1,0 +1,66 @@
+---
+// Numbers and charts drawn from src/data/stats.json (refresh it with `node scripts/update-stats.mjs`).
+import stats from '../data/stats.json';
+
+interface Props {
+  compact?: boolean; // compact = numbers and the monthly chart only
+}
+const { compact = false } = Astro.props;
+
+const months = Object.keys(stats.commitsByMonth);
+const values = Object.values(stats.commitsByMonth) as number[];
+const max = Math.max(...values, 1);
+const barRem = (n: number) => 0.3 + (n / max) * 7.2; // bar height in rem
+const label = (m: string) => new Date(`${m}-01T00:00:00Z`).toLocaleString('en-GB', { month: 'short', timeZone: 'UTC' });
+
+// whole months between the first repo and the snapshot
+const a = new Date(stats.firstRepo), b = new Date(stats.generated);
+const monthsSince = (b.getUTCFullYear() - a.getUTCFullYear()) * 12 + b.getUTCMonth() - a.getUTCMonth();
+
+const languages = Object.entries(stats.languages) as [string, number][];
+const langMax = Math.max(...languages.map(([, n]) => n), 1);
+const lastMonth = months[months.length - 1];
+const monthInProgress = lastMonth === stats.generated.slice(0, 7);
+---
+
+<section class="stats-block" aria-label="By the numbers">
+  <ul class="stat-cards">
+    <li><strong>{stats.repos}</strong><span>public repositories</span></li>
+    <li><strong>{stats.commits}</strong><span>commits I made</span></li>
+    <li><strong>{stats.automatedCommits}</strong><span>runs by my own bots</span></li>
+    <li><strong>{monthsSince}</strong><span>months since my first repo</span></li>
+  </ul>
+
+  <figure class="chart">
+    <figcaption class="figure-title">Commits per month</figcaption>
+    <ol class="bars" aria-label={`Commits per month: ${months.map((m, i) => `${label(m)} ${values[i]}`).join(', ')}`}>
+      {months.map((m, i) => (
+        <li class:list={{ partial: monthInProgress && m === lastMonth }}>
+          <span class="bar-box">
+            <span class="bar-val">{values[i]}</span>
+            <span class="bar" style={`height:${barRem(values[i] as number)}rem`}></span>
+          </span>
+          <span class="bar-mon">{label(m)}</span>
+        </li>
+      ))}
+    </ol>
+    {monthInProgress && <figcaption class="chart-note">The latest month is still in progress.</figcaption>}
+  </figure>
+
+  {!compact && (
+    <figure class="chart">
+      <figcaption class="figure-title">Main language of each repository</figcaption>
+      <ul class="lang-bars">
+        {languages.map(([name, n]) => (
+          <li>
+            <span class="lang-name">{name}</span>
+            <span class="lang-track"><i style={`width:${(n / langMax) * 100}%`}></i></span>
+            <span class="lang-n">{n}</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  )}
+
+  <p class="stats-note">Counted from my public repositories on {stats.generated}. Commits made by bots, like the scheduled runs of my lead-finder tools, are counted separately so they never inflate my own.</p>
+</section>

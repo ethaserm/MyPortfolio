@@ -8,6 +8,7 @@ category: app               # app | game | video | learning
 status: active              # active | shipped | completed | paused | archived | idea
 tags: [example]
 featured: false             # true = show on the home page
+# archive: true             # hide from home, lists and timeline (still reachable from the footer Archive link)
 # cover: ./project-name.png # image next to this file
 # video: https://youtu.be/XXXXXXXXXXX
 # gallery:

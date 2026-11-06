@@ -4,17 +4,19 @@ import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import TimelineEntry from '../components/TimelineEntry.astro';
 import Icon from '../components/Icon.astro';
+import Stats from '../components/Stats.astro';
 import { site } from '../data/site';
 import { categories, categoryKeys } from '../lib/categories';
-import { getProjects, getTimeline } from '../lib/content';
+import { getProjects, getTimeline, getVisibleCategories } from '../lib/content';
 import { url } from '../lib/url';
 
-// Screenshots shown in the hero (decorative: the projects themselves have full galleries).
-import polyTrack from '../assets/previews/poly-track-1.webp';
-import fairway from '../assets/previews/fairway-legends-1.webp';
-import marble from '../assets/previews/marble-run-builder-1.webp';
+// Phone screens shown in the hero (decorative: the projects themselves have full galleries).
+import lifeToday from '../assets/previews/life-os-phone.webp';
+import lifeHabits from '../assets/previews/life-os-habits.webp';
+import pushups from '../assets/previews/pushups-stats.webp';
 
 const projects = await getProjects();
+const visibleCats = await getVisibleCategories();
 const count = (key: string) => projects.filter((p) => p.data.category === key).length;
 
 // Featured projects if any are marked, otherwise just the newest few.
@@ -36,10 +38,10 @@ const hasHighlight = after !== undefined;
   <section class="hero-panel">
     <div class="corner"></div>
     <div class="grain"></div>
-    <div class="hero-shots" aria-hidden="true">
-      <figure class="shot shot-1"><Image src={polyTrack} alt="" width={800} /></figure>
-      <figure class="shot shot-2"><Image src={fairway} alt="" width={700} /></figure>
-      <figure class="shot shot-3"><Image src={marble} alt="" width={500} /></figure>
+    <div class="hero-shots phones" aria-hidden="true">
+      <figure class="shot phone phone-1"><Image src={lifeHabits} alt="" width={420} /></figure>
+      <figure class="shot phone phone-2"><Image src={lifeToday} alt="" width={460} /></figure>
+      <figure class="shot phone phone-3"><Image src={pushups} alt="" width={420} /></figure>
     </div>
     <div class="hero-copy">
       {site.now && <p class="now">Now: {site.now}</p>}
@@ -56,7 +58,7 @@ const hasHighlight = after !== undefined;
 
   <h2 class="sect-head">Browse by area</h2>
   <ul class="tiles">
-    {categoryKeys.map((key) => (
+    {categoryKeys.filter((key) => visibleCats.has(key)).map((key) => (
       <li>
         <a class="tile" data-cat={key} href={url(`/projects/category/${key}`)}>
           <span class="tile-icon"><Icon name={key} size={22} /></span>
@@ -76,6 +78,9 @@ const hasHighlight = after !== undefined;
       </ul>
     </>
   )}
+
+  <h2 class="sect-head">By the numbers<a href={url('/about')}>More →</a></h2>
+  <Stats compact />
 
   {latest.length > 0 && (
     <>

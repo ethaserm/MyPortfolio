@@ -5,6 +5,8 @@ date: 2026-05-30
 category: game
 status: paused
 tags: [roblox, luau, simulator]
+archive: true
+featured: false
 ---
 
 A Roblox game from May, built with Roblox Studio connected to Claude through an MCP server.

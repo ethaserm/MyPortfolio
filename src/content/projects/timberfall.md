@@ -5,11 +5,12 @@ date: 2026-08-06
 category: game
 status: paused
 tags: [isometric, crafting, html, game-dev]
-featured: true
+featured: false
 cover: ../../assets/previews/timberfall-1.webp
 links:
   - label: Source on GitHub
     href: https://github.com/ethaserm/TimberFall
+archive: true
 ---
 
 *Walk the clearing. Fell the trees. Stop walking.*

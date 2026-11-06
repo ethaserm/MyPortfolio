@@ -5,7 +5,18 @@ date: 2026-08-13
 category: app
 status: active
 tags: [electron, windows, whisper.cpp, local-AI, powershell]
-featured: false
+featured: true
+flow:
+  title: "Fullscreen detection: the rule I ended up with"
+  steps:
+    - label: "Covers the monitor"
+      note: "The foreground window's true visible edges fill the whole screen"
+    - label: "No title bar"
+      note: "It has no title-bar style at the Windows level"
+    - label: "Can't be resized"
+      note: "Real fullscreen games have no resize border"
+    - label: "Fade the island out"
+      note: "All three are true, so it fades out. It uses opacity, because hiding the window can make it lose its always-on-top status"
 ---
 
 A small black pill pinned to the top-centre of my screen that grows when I hover over it. It is an Electron app with a long-running PowerShell helper that talks to Windows for media keys, audio levels, the current song and keystrokes.
