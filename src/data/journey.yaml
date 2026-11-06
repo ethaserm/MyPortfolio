@@ -107,13 +107,6 @@
   note: A 130-message build session on tracking screen time.
 
 # ---------- August 2026 ----------
-- id: timberfall
-  date: 2026-08-06
-  title: TimberFall
-  category: game
-  href: https://github.com/ethaserm/TimberFall
-  tags: [HTML]
-
 - id: ramen-bowl-floors
   date: 2026-08-16
   title: "My Ramen Bowl: floor replication"
@@ -127,15 +120,6 @@
   category: game
   note: An 86-message session.
   project: my-ramen-bowl
-
-- id: lifeos-repo
-  date: 2026-08-23
-  title: LifeOS repository created
-  category: app
-  note: Life tracking built into the Dynamic Island app, synced to the cloud.
-  href: https://github.com/ethaserm/LifeOS
-  project: atlas-life-os
-  tags: [JavaScript]
 
 - id: island-dictation
   date: 2026-08-24
@@ -204,51 +188,11 @@
   tags: [Python, GitHub Actions]
 
 # ---------- October 2026 ----------
-- id: marble-run-game
-  date: 2026-10-01
-  title: Marble-Run-Game
-  category: game
-  href: https://github.com/ethaserm/Marble-Run-Game
-  project: browser-games
-  tags: [HTML]
-
-- id: mini-golf-game
-  date: 2026-10-01
-  title: Mini-Golf-Game
-  category: game
-  href: https://github.com/ethaserm/Mini-Golf-Game
-  project: browser-games
-  tags: [HTML]
-
-- id: parkour-speedrun-game
-  date: 2026-10-02
-  title: 3D-parkour-speedrun-game
-  category: game
-  href: https://github.com/ethaserm/3D-parkour-speedrun-game
-  project: browser-games
-  tags: [HTML]
-
-- id: cod-clone
-  date: 2026-10-05
-  title: Cod-Clone
-  category: game
-  href: https://github.com/ethaserm/Cod-Clone
-  project: browser-games
-  tags: [HTML]
-
 - id: notion-to-sheets
   date: 2026-10-08
   title: Moved the video database from Notion to Google Sheets
   category: video
   project: infinite-roads
-
-- id: poly-track-clone
-  date: 2026-10-10
-  title: Poly-Track-Clone
-  category: game
-  href: https://github.com/ethaserm/Poly-Track-Clone
-  project: browser-games
-  tags: [JavaScript]
 
 - id: video-1-public
   date: 2026-10-11
@@ -279,11 +223,3 @@
   category: video
   note: '"Zombie Outbreak: 30 Days in an Apartment Block", with new cuts of its Shorts.'
   project: infinite-roads
-
-- id: golf-game
-  date: 2026-10-16
-  title: Golf-Game
-  category: game
-  href: https://github.com/ethaserm/Golf-Game
-  project: browser-games
-  tags: [JavaScript]

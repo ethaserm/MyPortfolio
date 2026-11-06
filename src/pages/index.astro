@@ -1,11 +1,18 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import TimelineEntry from '../components/TimelineEntry.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../data/site';
 import { categories, categoryKeys } from '../lib/categories';
 import { getProjects, getTimeline } from '../lib/content';
-import { url, isoDate } from '../lib/url';
+import { url } from '../lib/url';
+
+// Screenshots shown in the hero (decorative: the projects themselves have full galleries).
+import polyTrack from '../assets/previews/poly-track-1.webp';
+import fairway from '../assets/previews/fairway-legends-1.webp';
+import marble from '../assets/previews/marble-run-builder-1.webp';
 
 const projects = await getProjects();
 const count = (key: string) => projects.filter((p) => p.data.category === key).length;
@@ -13,56 +20,69 @@ const count = (key: string) => projects.filter((p) => p.data.category === key).l
 // Featured projects if any are marked, otherwise just the newest few.
 const featured = projects.filter((p) => p.data.featured).slice(0, 6);
 const showcase = featured.length > 0 ? featured : projects.slice(0, 3);
-const latest = (await getTimeline()).slice(0, 5);
+const latest = (await getTimeline()).slice(0, 4);
+
+// "Ethan Sermon" -> underline the surname. A single word is underlined whole.
+const parts = site.name.trim().split(/\s+/);
+const lastName = parts.length > 1 ? parts.pop() : undefined;
+const firstName = parts.join(' ');
+
+// Highlight a phrase inside the tagline, if it is there.
+const [before, after] = site.tagline.split(site.highlight);
+const hasHighlight = after !== undefined;
 ---
 
-<Base glow>
-  <section class="hero">
-    {site.now && <p class="now">Now: {site.now}</p>}
-    <h1>{site.name}</h1>
-    <p class="lede">{site.tagline}</p>
+<Base>
+  <section class="hero-panel">
+    <div class="corner"></div>
+    <div class="grain"></div>
+    <div class="hero-shots" aria-hidden="true">
+      <figure class="shot shot-1"><Image src={polyTrack} alt="" width={800} /></figure>
+      <figure class="shot shot-2"><Image src={fairway} alt="" width={700} /></figure>
+      <figure class="shot shot-3"><Image src={marble} alt="" width={500} /></figure>
+    </div>
+    <div class="hero-copy">
+      {site.now && <p class="now">Now: {site.now}</p>}
+      <h1>{lastName ? <>{firstName} <span class="u">{lastName}</span></> : <span class="u">{firstName}</span>}</h1>
+      <p class="lede">
+        {hasHighlight ? <>{before}<mark>{site.highlight}</mark>{after}</> : site.tagline}
+      </p>
+      <div class="hero-btns">
+        <a class="btn-main" href={url('/projects')}>See my projects →</a>
+        <a class="btn-alt" href={url('/timeline')}>Watch the timeline</a>
+      </div>
+    </div>
   </section>
 
-  <section aria-labelledby="areas">
-    <h2 id="areas" class="muted" style="font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:600">Browse by area</h2>
-    <ul class="tiles">
-      {categoryKeys.map((key) => (
-        <li>
-          <a class="tile" data-cat={key} href={url(`/projects/category/${key}`)}>
-            <span class="tile-icon"><Icon name={key} size={22} /></span>
-            <span class="tile-title">{categories[key].label}</span>
-            <span class="tile-sub">{categories[key].blurb}</span>
-            <span class="tile-count">{count(key)}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  </section>
+  <h2 class="sect-head">Browse by area</h2>
+  <ul class="tiles">
+    {categoryKeys.map((key) => (
+      <li>
+        <a class="tile" data-cat={key} href={url(`/projects/category/${key}`)}>
+          <span class="tile-icon"><Icon name={key} size={22} /></span>
+          <span class="tile-title">{categories[key].label}</span>
+          <span class="tile-sub">{categories[key].blurb}</span>
+          <span class="tile-count">{count(key)}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
 
   {showcase.length > 0 && (
-    <section class="section">
-      <div class="section-head">
-        <h2>{featured.length > 0 ? 'Featured' : 'Latest projects'}</h2>
-        <a href={url('/projects')}>All projects →</a>
-      </div>
+    <>
+      <h2 class="sect-head">{featured.length > 0 ? 'Featured' : 'Latest projects'}<a href={url('/projects')}>All projects →</a></h2>
       <ul class="grid">
         {showcase.map((p) => <li><ProjectCard project={p} /></li>)}
       </ul>
-    </section>
+    </>
   )}
 
   {latest.length > 0 && (
-    <section class="section prose">
-      <h2>Latest updates</h2>
-      <ul class="entries">
-        {latest.map((e) => (
-          <li>
-            <time datetime={isoDate(e.date)}>{isoDate(e.date)}</time>
-            <div>{e.href ? <a href={e.href}>{e.title}</a> : e.title}</div>
-          </li>
-        ))}
-      </ul>
-      <a class="more" href={url('/timeline')}>Full timeline →</a>
-    </section>
+    <>
+      <h2 class="sect-head">Journey<a href={url('/timeline')}>Full timeline →</a></h2>
+      <ol class="rail home-rail">
+        {latest.map((item) => <TimelineEntry item={item} />)}
+      </ol>
+    </>
   )}
 </Base>

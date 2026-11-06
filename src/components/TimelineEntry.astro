@@ -1,0 +1,37 @@
+---
+import Icon from './Icon.astro';
+import { categories } from '../lib/categories';
+import type { TimelineItem } from '../lib/content';
+import { isoDate } from '../lib/url';
+
+// One entry on the journey rail. Used by the timeline page and the home page teaser.
+interface Props {
+  item: TimelineItem;
+}
+
+const { item: i } = Astro.props;
+---
+
+<li class:list={['tl-item', { 'is-big': i.milestone }]} data-cat={i.category} data-kind={i.kind}>
+  <span class="tl-dot" aria-hidden="true"></span>
+  <div class="tl-body">
+    <div class="meta">
+      <time datetime={isoDate(i.date)}>{isoDate(i.date)}</time>
+      {i.category && <span class="cat"><Icon name={i.category} size={13} />{categories[i.category].label}</span>}
+      {i.kind === 'project' && <span class="chip">Project</span>}
+      {i.kind === 'update' && <span class="chip">Update</span>}
+    </div>
+    <h3 class="tl-title">
+      {i.href
+        ? <a href={i.href} rel={i.external ? 'noopener' : undefined}>{i.title}{i.external ? ' ↗' : ''}</a>
+        : i.title}
+    </h3>
+    {i.summary && <p class="tl-note">{i.summary}</p>}
+    {(i.tags.length > 0 || (i.project && i.kind !== 'project')) && (
+      <div class="meta tl-foot">
+        {i.project && i.kind !== 'project' && <a href={i.project.href}>↳ {i.project.title}</a>}
+        {i.tags.map((t) => <span>#{t}</span>)}
+      </div>
+    )}
+  </div>
+</li>

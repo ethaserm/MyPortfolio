@@ -5,7 +5,7 @@ date: 2026-06-03
 category: game
 status: paused
 tags: [roblox, luau, collecting, datastore, leaderboards]
-featured: true
+featured: false
 ---
 
 Explore a big map, touch a sneaker to collect it, and it is logged in your **Sneakerdex** with its name and rarity.
