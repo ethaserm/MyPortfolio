@@ -2,6 +2,7 @@
 export const site = {
   name: 'Ethan Sermon',
   tagline: 'I build apps, games and videos, and keep a record of it all here.',
+  highlight: 'apps, games and videos', // the part of the tagline that gets the highlighter
   now: 'Setting up this portfolio', // shown on the home page; change it whenever your focus changes. Empty = hidden
   email: '', // leave empty to hide the email link
   links: [

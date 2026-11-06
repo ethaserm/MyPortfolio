@@ -5,7 +5,7 @@ date: 2026-08-13
 category: app
 status: active
 tags: [electron, windows, whisper.cpp, local-AI, powershell]
-featured: true
+featured: false
 ---
 
 A small black pill pinned to the top-centre of my screen that grows when I hover over it. It is an Electron app with a long-running PowerShell helper that talks to Windows for media keys, audio levels, the current song and keystrokes.

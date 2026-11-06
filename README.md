@@ -78,15 +78,32 @@ The `github-pages` environment only accepts deploys from `main` (Settings → En
 
 ## Design notes
 
-- **Colour:** one accent for the site plus one per area, defined at the top of `src/styles/global.css`. Light and dark themes follow the visitor's system setting. Every text and background pairing meets WCAG AA contrast (4.5:1), so check any new colour the same way.
-- **Layout:** works from 320px wide upward, with no horizontal scrolling.
+- **Two themes, both from chosen palettes.** Light is orange and white (navy and blue for text and supporting colour). Dark is red and black (sand and pearl for text and supporting colour). The site follows each visitor's system setting, and the button in the header switches it and remembers the choice. All the colours are defined at the top of `src/styles/global.css`.
+- **Readable by construction.** Every text and background pairing meets WCAG AA contrast (4.5:1, or 3:1 for large text), measured on the real rendered pixels in both themes, including over the gradients. If you change a colour, check it the same way.
+- **Corner gradients and highlights** come from four tokens per theme (`--g0` to `--g3`) plus two highlight colours (`--hi`, `--hi2`).
+- **Layout:** works from 320px wide upward with no horizontal scrolling.
 - **Motion:** hover effects are switched off for visitors who prefer reduced motion.
+
+## Preview images
+
+Every project can show a picture. Put images in `src/assets/previews/` (WebP keeps the site light) and point a project at one:
+
+```yaml
+cover: ../../assets/previews/my-game-1.webp      # the card and the top of the project page
+gallery:
+  - image: ../../assets/previews/my-game-2.webp
+    alt: What this screenshot shows
+```
+
+- **Landscape screenshots** (about 1280×720 works well) get a soft corner wash of the theme colours.
+- **Portrait phone screenshots** (about 780×1688) are shown as a phone on a coloured panel.
+- **No image yet?** The project gets a designed panel with its area's icon, so nothing is ever blank. Add a `cover` whenever you have one.
 
 ## Keeping it healthy over the years
 
 - **Content is portable.** It's all Markdown and front matter, so you could move to another framework without rewriting anything.
-- **Few dependencies.** Only `astro`. Once a year, run `npm update`, then `npm run build` to confirm it still works.
-- **No external fonts, scripts or services.** Nothing to break when a third party shuts down.
+- **Few dependencies.** `astro`, plus one font package (`@fontsource-variable/fraunces`) that is self-hosted, so visitors never contact Google. Once a year, run `npm update`, then `npm run build` to confirm it still works.
+- **No external fonts, scripts or services.** Fonts, images and styles are all served from the site itself. Nothing to break when a third party shuts down.
 - **Check before publishing.** This site is public. Never paste raw notes or chat logs into it: leave out keys, private repositories, other people's names and anything you wouldn't put on a poster.
 
 ## Links inside Markdown

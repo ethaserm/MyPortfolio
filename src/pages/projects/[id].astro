@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import CoverArt from '../../components/CoverArt.astro';
 import Icon from '../../components/Icon.astro';
 import { categories } from '../../lib/categories';
 import { getProjects, getLog } from '../../lib/content';
@@ -54,7 +55,7 @@ const videoId = video ? youtubeId(video) : null;
           ></iframe>
         </div>
       )
-      : cover && <Image class="cover" src={cover} alt="" width={1200} />}
+      : <CoverArt cover={cover} category={category} size="large" />}
 
     <div class="prose body">
       <Content />
@@ -62,7 +63,11 @@ const videoId = video ? youtubeId(video) : null;
 
     {gallery.length > 0 && (
       <ul class="gallery" aria-label="Screenshots">
-        {gallery.map((g) => <li><Image src={g.image} alt={g.alt} width={800} /></li>)}
+        {gallery.map((g) => (
+          <li class:list={{ portrait: g.image.height > g.image.width }}>
+            <Image src={g.image} alt={g.alt} width={g.image.height > g.image.width ? 600 : 900} />
+          </li>
+        ))}
       </ul>
     )}
 

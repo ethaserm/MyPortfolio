@@ -1,6 +1,6 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import CoverArt from './CoverArt.astro';
 import Icon from './Icon.astro';
 import { categories } from '../lib/categories';
 import { url, isoDate } from '../lib/url';
@@ -14,11 +14,7 @@ const { title, summary, cover, category, status, tags, date, draft } = project.d
 ---
 
 <article class="card" data-cat={category}>
-  <div class="card-media">
-    {cover
-      ? <Image src={cover} alt="" width={800} />
-      : <div class="card-fallback" aria-hidden="true"><Icon name={category} size={52} /></div>}
-  </div>
+  <CoverArt cover={cover} category={category} />
   <div class="card-body">
     <div class="meta between">
       <span class="cat"><Icon name={category} size={15} />{categories[category].label}</span>

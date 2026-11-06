@@ -5,7 +5,7 @@ date: 2026-08-15
 category: game
 status: paused
 tags: [roblox, luau, tycoon, roblox-studio]
-featured: true
+featured: false
 ---
 
 A ramen-shop merge tycoon for Roblox, built live inside Roblox Studio with Claude connected to it through an MCP server, so it could work in the real game while I watched.

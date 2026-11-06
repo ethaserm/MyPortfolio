@@ -5,10 +5,7 @@ date: 2026-08-31
 category: app
 status: active
 tags: [web-app, firebase, voice, life-tracking]
-featured: true
-links:
-  - label: Source on GitHub
-    href: https://github.com/ethaserm/LifeOS
+featured: false
 ---
 
 ATLAS began with one prompt: *"i really want to make a nice looking life web app just for me."* It grew into a life tracker where everything lives on one big zoomable canvas instead of in separate screens.
