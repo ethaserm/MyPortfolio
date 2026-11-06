@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+import { categories, categoryKeys, type Category } from '../lib/categories';
+import { url } from '../lib/url';
+
+interface Props {
+  current: Category | 'all';
+  counts: Record<Category, number>;
+  total: number;
+}
+
+const { current, counts, total } = Astro.props;
+---
+
+<nav class="filters" aria-label="Filter projects by area">
+  <a href={url('/projects')} aria-current={current === 'all' ? 'page' : undefined}>
+    All <span class="count">{total}</span>
+  </a>
+  {categoryKeys.map((key) => (
+    <a href={url(`/projects/category/${key}`)} data-cat={key} aria-current={current === key ? 'page' : undefined}>
+      <Icon name={key} size={15} />{categories[key].label} <span class="count">{counts[key]}</span>
+    </a>
+  ))}
+</nav>

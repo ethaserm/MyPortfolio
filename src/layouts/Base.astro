@@ -6,10 +6,12 @@ import { url } from '../lib/url';
 interface Props {
   title?: string;
   description?: string;
+  glow?: boolean; // soft colour wash behind the top of the page (home only)
 }
 
-const { title, description = site.tagline } = Astro.props;
+const { title, description = site.tagline, glow = false } = Astro.props;
 const pageTitle = title ? `${title} · ${site.name}` : site.name;
+const initial = site.name.trim().charAt(0).toUpperCase() || '·';
 
 // Mark the current section in the nav (works with or without a base path).
 const trim = (p: string) => p.replace(/\/$/, '') || '/';
@@ -31,15 +33,18 @@ const updated = new Date().toISOString().slice(0, 10);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e0e11" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
   </head>
   <body>
+    {glow && <div class="glow" aria-hidden="true"></div>}
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href={url('/')}>{site.name}</a>
+        <a class="brand" href={url('/')}><span class="brand-mark" aria-hidden="true">{initial}</span>{site.name}</a>
         <nav aria-label="Main">
           <ul>
             {nav.map((item) => (

@@ -1,0 +1,35 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import CategoryNav from '../../../components/CategoryNav.astro';
+import { categories, categoryKeys, type Category } from '../../../lib/categories';
+import { getProjects } from '../../../lib/content';
+
+// One page per area, built even when it's empty so the links on the home page never dead-end.
+export function getStaticPaths() {
+  return categoryKeys.map((cat) => ({ params: { cat } }));
+}
+
+const cat = Astro.params.cat as Category;
+const all = await getProjects();
+const counts = Object.fromEntries(
+  categoryKeys.map((k) => [k, all.filter((p) => p.data.category === k).length]),
+) as Record<Category, number>;
+const projects = all.filter((p) => p.data.category === cat);
+const { label, blurb } = categories[cat];
+---
+
+<Base title={label} description={blurb}>
+  <h1 data-cat={cat}>{label}</h1>
+  <p class="lede">{blurb}.</p>
+
+  <CategoryNav current={cat} counts={counts} total={all.length} />
+
+  {projects.length === 0
+    ? <p class="muted">Nothing here yet. Add a project with <code>category: {cat}</code> in <code>src/content/projects/</code>.</p>
+    : (
+      <ul class="grid">
+        {projects.map((p) => <li><ProjectCard project={p} /></li>)}
+      </ul>
+    )}
+</Base>

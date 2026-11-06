@@ -1,39 +1,59 @@
 ---
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import Icon from '../components/Icon.astro';
 import { site } from '../data/site';
+import { categories, categoryKeys } from '../lib/categories';
 import { getProjects, getLog } from '../lib/content';
 import { url, isoDate } from '../lib/url';
 
 const projects = await getProjects();
+const count = (key: string) => projects.filter((p) => p.data.category === key).length;
+
+// Featured projects if any are marked, otherwise just the newest few.
 const featured = projects.filter((p) => p.data.featured).slice(0, 6);
+const showcase = featured.length > 0 ? featured : projects.slice(0, 3);
 const latest = (await getLog()).slice(0, 4);
 ---
 
-<Base>
+<Base glow>
   <section class="hero">
+    {site.now && <p class="now">Now: {site.now}</p>}
     <h1>{site.name}</h1>
-    <p>{site.tagline}</p>
+    <p class="lede">{site.tagline}</p>
   </section>
 
-  {featured.length > 0 && (
+  <section aria-labelledby="areas">
+    <h2 id="areas" class="muted" style="font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:600">Browse by area</h2>
+    <ul class="tiles">
+      {categoryKeys.map((key) => (
+        <li>
+          <a class="tile" data-cat={key} href={url(`/projects/category/${key}`)}>
+            <span class="tile-icon"><Icon name={key} size={22} /></span>
+            <span class="tile-title">{categories[key].label}</span>
+            <span class="tile-sub">{categories[key].blurb}</span>
+            <span class="tile-count">{count(key)}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  {showcase.length > 0 && (
     <section class="section">
       <div class="section-head">
-        <h2>Featured projects</h2>
+        <h2>{featured.length > 0 ? 'Featured' : 'Latest projects'}</h2>
         <a href={url('/projects')}>All projects →</a>
       </div>
       <ul class="grid">
-        {featured.map((p) => <li><ProjectCard project={p} /></li>)}
+        {showcase.map((p) => <li><ProjectCard project={p} /></li>)}
       </ul>
     </section>
   )}
 
   {latest.length > 0 && (
     <section class="section prose">
-      <div class="section-head">
-        <h2>Latest updates</h2>
-        <a href={url('/timeline')}>Full timeline →</a>
-      </div>
+      <h2>Latest updates</h2>
       <ul class="entries">
         {latest.map((e) => (
           <li>
@@ -42,6 +62,7 @@ const latest = (await getLog()).slice(0, 4);
           </li>
         ))}
       </ul>
+      <a class="more" href={url('/timeline')}>Full timeline →</a>
     </section>
   )}
 </Base>
