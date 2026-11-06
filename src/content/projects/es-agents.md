@@ -9,6 +9,19 @@ featured: true
 links:
   - label: Visit the site
     href: https://esagents.dpdns.org
+flow:
+  title: "How the Website Agent answers"
+  steps:
+    - label: "A visitor asks"
+      note: "A question typed into the chat widget on the client's website"
+    - label: "The widget sends it"
+      note: "To a small server I run (a Cloudflare Worker)"
+    - label: "Only the client's facts"
+      note: "The Worker gives the AI the business's own facts as its instructions"
+    - label: "An AI writes the reply"
+      note: "Its answers stick to those facts"
+    - label: "The visitor gets an answer"
+      note: "Chat only: it doesn't collect leads"
 ---
 
 ES Agents makes AI tools for small UK businesses such as plumbers, electricians, roofers, salons, garages and cafés. I built it.

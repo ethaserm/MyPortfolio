@@ -10,11 +10,11 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, summary, cover, category, status, tags, date, draft } = project.data;
+const { title, summary, cover, category, status, tags, date, draft, flow } = project.data;
 ---
 
 <article class="card" data-cat={category}>
-  <CoverArt cover={cover} category={category} />
+  <CoverArt cover={cover} category={category} flow={flow} />
   <div class="card-body">
     <div class="meta between">
       <span class="cat"><Icon name={category} size={15} />{categories[category].label}</span>

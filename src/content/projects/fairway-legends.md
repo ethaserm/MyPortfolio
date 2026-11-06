@@ -5,7 +5,7 @@ date: 2026-10-16
 category: game
 status: active
 tags: [three.js, golf, 3d, mobile]
-featured: true
+featured: false
 cover: ../../assets/previews/fairway-legends-1.webp
 gallery:
   - image: ../../assets/previews/fairway-legends-2.webp
@@ -13,6 +13,7 @@ gallery:
 links:
   - label: Source on GitHub
     href: https://github.com/ethaserm/Golf-Game
+archive: true
 ---
 
 A golf game that runs in the browser on a PC or a phone. I rebuilt it from the ground up after studying the Roblox game *Realistic Golf* (Blox Golf) by Sharkie212: the same kind of game, with its own art style, courses and characters. Nothing is copied from Roblox.

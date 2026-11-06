@@ -12,6 +12,8 @@ gallery:
 links:
   - label: Source on GitHub
     href: https://github.com/ethaserm/Marble-Run-Game
+archive: true
+featured: false
 ---
 
 Build a marble run piece by piece, then press Run and watch the marbles go. The whole game is a single `index.html` with no build step and no asset files: every model, texture and sound is generated in code. It uses three.js for rendering and Rapier for physics.

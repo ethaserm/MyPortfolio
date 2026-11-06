@@ -10,6 +10,19 @@ video: https://youtu.be/sPHSWtq-OUI
 links:
   - label: Watch on YouTube
     href: https://www.youtube.com/@infiniteroadstories
+flow:
+  title: "How a video gets made"
+  steps:
+    - label: "Idea"
+      note: "I describe it and Claude writes the plan, the script and the image prompts"
+    - label: "Pictures"
+      note: "A batch generator makes every scene while the voice is being made"
+    - label: "Voice"
+      note: "A clone of my own voice, running on my PC"
+    - label: "Build"
+      note: "One script places the stickman, adds captions and sounds, and renders the video, the Shorts and the thumbnail"
+    - label: "Check and upload"
+      note: "I review the real frames, then upload and schedule it"
 ---
 
 Infinite Roads is a stickman animation channel. Each video is a roughly 10-minute survival story told in the second person: *"You..."* It follows Day 1 to the last day, uses real facts, and builds a mystery that escalates and never fully explains itself, ending on a cliffhanger. The format is inspired by the big stickman survival channels.

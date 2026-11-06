@@ -16,7 +16,7 @@ const { current, counts, total } = Astro.props;
   <a href={url('/projects')} aria-current={current === 'all' ? 'page' : undefined}>
     All <span class="count">{total}</span>
   </a>
-  {categoryKeys.map((key) => (
+  {categoryKeys.filter((key) => counts[key] > 0 || current === key).map((key) => (
     <a href={url(`/projects/category/${key}`)} data-cat={key} aria-current={current === key ? 'page' : undefined}>
       <Icon name={key} size={15} />{categories[key].label} <span class="count">{counts[key]}</span>
     </a>

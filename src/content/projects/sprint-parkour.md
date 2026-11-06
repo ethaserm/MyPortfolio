@@ -9,6 +9,8 @@ cover: ../../assets/previews/sprint-1.webp
 links:
   - label: Source on GitHub
     href: https://github.com/ethaserm/3D-parkour-speedrun-game
+archive: true
+featured: false
 ---
 
 Run, jump, slide and wall-jump your way through eight courses as fast as you can. It's one self-contained `index.html` with no build step and no local assets: all the art is procedural and all the audio is synthesised with the Web Audio API.

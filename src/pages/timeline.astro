@@ -45,7 +45,7 @@ const last = items[0]?.date;
     {/* Filter bar: hidden until the script below runs, so the page works fully without JavaScript. */}
     <div class="filters" data-filters hidden role="group" aria-label="Filter the timeline by area">
       <button type="button" data-filter="all" aria-pressed="true">All <span class="count">{items.length}</span></button>
-      {categoryKeys.map((key) => (
+      {categoryKeys.filter((key) => counts[key] > 0).map((key) => (
         <button type="button" data-filter={key} data-cat={key} aria-pressed="false">
           <Icon name={key} size={15} />{categories[key].label} <span class="count">{counts[key]}</span>
         </button>

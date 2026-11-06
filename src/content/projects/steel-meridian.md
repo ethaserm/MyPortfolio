@@ -5,7 +5,7 @@ date: 2026-10-05
 category: game
 status: active
 tags: [three.js, fps, multiplayer, game-dev]
-featured: true
+featured: false
 cover: ../../assets/previews/steel-meridian-1.webp
 gallery:
   - image: ../../assets/previews/steel-meridian-2.webp
@@ -13,6 +13,7 @@ gallery:
 links:
   - label: Source on GitHub
     href: https://github.com/ethaserm/Cod-Clone
+archive: true
 ---
 
 A first-person shooter in the style of modern military multiplayer games, built to run in a browser. It's one self-contained `index.html` using three.js, with no build step and no backend. Every texture, model and sound is generated in code.

@@ -3,9 +3,11 @@ import Base from '../../layouts/Base.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import CategoryNav from '../../components/CategoryNav.astro';
 import { categoryKeys, type Category } from '../../lib/categories';
-import { getProjects } from '../../lib/content';
+import { getProjects, getArchive } from '../../lib/content';
+import { url } from '../../lib/url';
 
 const projects = await getProjects();
+const archiveCount = (await getArchive()).length;
 const counts = Object.fromEntries(
   categoryKeys.map((k) => [k, projects.filter((p) => p.data.category === k).length]),
 ) as Record<Category, number>;
@@ -24,4 +26,10 @@ const counts = Object.fromEntries(
         {projects.map((p) => <li><ProjectCard project={p} /></li>)}
       </ul>
     )}
+
+  {archiveCount > 0 && (
+    <p class="archive-note muted">
+      Older builds and experiments live in the <a href={url('/projects/archive')}>archive</a>.
+    </p>
+  )}
 </Base>

@@ -3,33 +3,35 @@ import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import CoverArt from '../../components/CoverArt.astro';
+import Flow from '../../components/Flow.astro';
+import Segments from '../../components/Segments.astro';
 import Icon from '../../components/Icon.astro';
 import { categories } from '../../lib/categories';
-import { getProjects, getLog } from '../../lib/content';
+import { getAllProjects, getLog } from '../../lib/content';
 import { youtubeId } from '../../lib/video';
 import { url, isoDate } from '../../lib/url';
 
 export async function getStaticPaths() {
-  const projects = await getProjects();
+  const projects = await getAllProjects();
   return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
 }
 
 const { project } = Astro.props;
-const { title, summary, cover, category, status, tags, date, links, video, gallery } = project.data;
+const { title, summary, cover, category, status, tags, date, links, video, gallery, flow, segments, archive } = project.data;
 const { Content } = await render(project);
 const updates = (await getLog()).filter((e) => e.data.project?.id === project.id);
 const videoId = video ? youtubeId(video) : null;
 ---
 
 <Base title={title} description={summary}>
-  <a class="back" href={url('/projects')}>← All projects</a>
+  <a class="back" href={url(archive ? '/projects/archive' : '/projects')}>{archive ? '← Archive' : '← All projects'}</a>
 
   <article data-cat={category}>
     <div class="prose intro">
       <div class="meta">
-        <a class="cat" href={url(`/projects/category/${category}`)} style="text-decoration:none">
-          <Icon name={category} size={15} />{categories[category].label}
-        </a>
+        {archive
+          ? <span class="cat"><Icon name={category} size={15} />{categories[category].label}</span>
+          : <a class="cat" href={url(`/projects/category/${category}`)} style="text-decoration:none"><Icon name={category} size={15} />{categories[category].label}</a>}
         <span class={`chip status-${status}`}>{status}</span>
         <time datetime={isoDate(date)}>{isoDate(date)}</time>
       </div>
@@ -55,7 +57,10 @@ const videoId = video ? youtubeId(video) : null;
           ></iframe>
         </div>
       )
-      : <CoverArt cover={cover} category={category} size="large" />}
+      : (cover || !flow) && <CoverArt cover={cover} category={category} size="large" />}
+
+    {flow && <Flow flow={flow} />}
+    {segments && <Segments data={segments} />}
 
     <div class="prose body">
       <Content />

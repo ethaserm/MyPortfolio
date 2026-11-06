@@ -16,6 +16,9 @@ const projects = defineCollection({
       status: z.enum(['active', 'shipped', 'completed', 'paused', 'archived', 'idea']).default('active'),
       tags: z.array(z.string()).default([]),
       featured: z.boolean().default(false), // featured projects appear on the home page
+      archive: z.boolean().default(false), // true = kept off the home page, project list and timeline; lives on /projects/archive/
+      flow: z.object({ title: z.string().optional(), steps: z.array(z.object({ label: z.string(), note: z.string().optional() })).min(2) }).optional(), // a "how it works" diagram
+      segments: z.object({ title: z.string().optional(), note: z.string().optional(), end: z.string(), parts: z.array(z.object({ label: z.string(), from: z.string() })).min(2) }).optional(), // a proportional bar, e.g. the structure of a video (times as m:ss)
       draft: z.boolean().default(false), // drafts show in `npm run dev` only
       cover: image().optional(), // card + header image, path relative to the .md file, e.g. ./my-app.png
       video: z.string().url().optional(), // YouTube link: embedded at the top of the project page
@@ -47,6 +50,7 @@ const journey = defineCollection({
     category: area.default('app'),
     note: z.string().optional(), // one sentence shown under the title
     milestone: z.boolean().default(false), // true = shown as a bigger card
+    archive: z.boolean().default(false), // true = hidden from the timeline (shown only via the archive)
     href: z.string().url().optional(), // external link, e.g. the GitHub repo
     project: reference('projects').optional(), // links the moment to a project page
     tags: z.array(z.string()).default([]),

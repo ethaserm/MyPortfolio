@@ -83,6 +83,7 @@ const updated = new Date().toISOString().slice(0, 10);
         <ul>
           {site.email && <li><a href={`mailto:${site.email}`}>Email</a></li>}
           {site.links.map((l) => <li><a href={l.href} rel="me noopener">{l.label}</a></li>)}
+          <li><a href={url('/projects/archive')}>Archive</a></li>
         </ul>
       </div>
     </footer>

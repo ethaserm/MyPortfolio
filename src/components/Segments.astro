@@ -1,0 +1,32 @@
+---
+// A bar split into proportional parts, drawn from a project's `segments:` front matter.
+// Good for showing the structure of a video, a day, a build...  Times are written as m:ss.
+interface Props {
+  data: { title?: string; note?: string; end: string; parts: { label: string; from: string }[] };
+}
+
+const { data } = Astro.props;
+const seconds = (t: string) => {
+  const [m, s] = t.split(':').map(Number);
+  return m * 60 + (s || 0);
+};
+const parts = data.parts.map((p, i) => {
+  const start = seconds(p.from);
+  const end = seconds(i < data.parts.length - 1 ? data.parts[i + 1].from : data.end);
+  return { ...p, length: Math.max(end - start, 1) };
+});
+---
+
+<figure class="segments">
+  {data.title && <figcaption class="figure-title">{data.title}</figcaption>}
+  <div class="seg-bar" aria-hidden="true">
+    {parts.map((p) => <span class="seg" style={`flex:${p.length}`}></span>)}
+  </div>
+  <ol class="seg-list">
+    {parts.map((p) => (
+      <li><span class="seg-dot" aria-hidden="true"></span><time>{p.from}</time> {p.label}</li>
+    ))}
+  </ol>
+  <p class="seg-end muted">Ends at {data.end}</p>
+  {data.note && <p class="seg-note">{data.note}</p>}
+</figure>

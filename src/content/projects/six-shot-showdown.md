@@ -5,6 +5,8 @@ date: 2026-06-23
 category: game
 status: paused
 tags: [roblox, luau, pvp, shooter]
+archive: true
+featured: false
 ---
 
 A team deathmatch set in the Wild West, inspired by Wild Revolvers. Sheriffs face Cowboys, one hit kills, and the team with the most kills when the timer runs out wins.

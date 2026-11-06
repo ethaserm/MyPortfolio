@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getArchive } from '../../lib/content';
+import { url } from '../../lib/url';
+
+const archive = await getArchive();
+---
+
+<Base title="Archive" description="Older builds and experiments, kept for the record.">
+  <a class="back" href={url('/projects')}>← Projects</a>
+  <h1>Archive</h1>
+  <p class="lede">Games and experiments: older or smaller builds that I keep for the record.</p>
+
+  {archive.length === 0
+    ? <p class="muted">Nothing in the archive.</p>
+    : (
+      <ul class="grid">
+        {archive.map((p) => <li><ProjectCard project={p} /></li>)}
+      </ul>
+    )}
+</Base>
