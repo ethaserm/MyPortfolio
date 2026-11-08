@@ -278,3 +278,107 @@
   category: learning
   note: It said the channel used background music. Listening myself showed there is none.
   project: studying-a-top-channel
+
+# ---------- From the vault (added 2026-11-08) ----------
+- id: rule-test-it-first
+  date: 2026-03-25
+  title: My first rule for AI
+  category: learning
+  note: "Test it before giving it to me, always."
+
+- id: left-netlify
+  date: 2026-04-05
+  title: Moved my apps from Netlify to GitHub Pages
+  category: app
+  note: One place for the code and the site, instead of uploading files by hand.
+
+- id: small-edits-not-rewrites
+  date: 2026-04-09
+  title: One full-file rewrite used 58% of my limit
+  category: learning
+  note: After that I asked for small edits instead.
+
+- id: mh370-short
+  date: 2026-04-18
+  title: My best mystery Short got 785 views
+  category: video
+  note: The three before it got 10, 77 and 28. The difference was a specific case and a real number.
+  project: shorts-channel-experiments
+
+- id: cutlab-planned
+  date: 2026-04-30
+  title: Planned CutLab and refused paid tools
+  category: video
+  note: Worked out a free clip budget myself, about 3 videos a day.
+  project: shorts-channel-experiments
+
+- id: pro-is-not-api
+  date: 2026-08-03
+  title: Learned a Pro plan and the API are separate
+  category: learning
+  note: So FreeOpusClip uses a local model instead.
+  project: free-opus-clip
+
+- id: start-empty-crash
+  date: 2026-09-01
+  title: One empty-data bug in ATLAS cost a long debugging session
+  category: learning
+  note: It became a list of Firebase gotchas I now check first.
+  project: single-file-app-gotchas
+
+- id: phased-builds
+  date: 2026-09-07
+  title: "Whenever I try and build it, it never goes the way"
+  category: learning
+  note: I switched to building in phases, one page with one job.
+
+- id: omniroute-set-up
+  date: 2026-10-21
+  title: Ran Claude Code on free models
+  category: app
+  note: OmniRoute tries five free models in order. Groq's limit was below one request.
+  project: omniroute
+
+- id: local-model-measured
+  date: 2026-10-22
+  title: Found the model that fits an 8 GB graphics card
+  category: learning
+  note: A 4B model at 52 tokens a second, after ruling out two bigger ones.
+  project: local-ai-on-a-budget-pc
+
+- id: usage-scan
+  date: 2026-10-23
+  title: Found out 68% of my usage was old chat being re-read
+  category: learning
+  note: Shorter replies were only 11% of it.
+  project: making-claude-usage-last
+
+- id: mynotion-online
+  date: 2026-10-27
+  title: Built my own Notion and had it online in 1h23m
+  category: app
+  milestone: true
+  note: "I said \"surely notion can't be that hard to build\". It wasn't, to start."
+  project: mynotion
+
+- id: mynotion-cloud-mcp
+  date: 2026-10-28
+  title: Put MyNotion's Claude connector in the cloud
+  category: app
+  note: Claude on the web can now use it with my PC off.
+  project: mynotion
+
+- id: pc-remote-working
+  date: 2026-11-04
+  title: Controlled my PC from my iPhone, 54 minutes in
+  category: app
+  milestone: true
+  note: A screen stream, touch controls and a game mode, built over three evenings.
+  project: pc-remote
+
+- id: opus-clip-clone
+  date: 2026-11-05
+  title: Fixed my clip tool's download errors
+  category: app
+  note: Antivirus was re-signing HTTPS. A certificate package fixed it.
+  project: free-opus-clip
