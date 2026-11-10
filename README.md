@@ -135,7 +135,7 @@ gallery:
 ## Keeping it healthy over the years
 
 - **Content is portable.** It's all Markdown and front matter, so you could move to another framework without rewriting anything.
-- **Few dependencies.** `astro`, plus one font package (`@fontsource-variable/fraunces`) that is self-hosted, so visitors never contact Google. Once a year, run `npm update`, then `npm run build` to confirm it still works.
+- **Few dependencies.** `astro`, plus one font package (`@fontsource-variable/manrope`) that is self-hosted, so visitors never contact Google. Once a year, run `npm update`, then `npm run build` to confirm it still works.
 - **No external fonts, scripts or services.** Fonts, images and styles are all served from the site itself. Nothing to break when a third party shuts down.
 - **Check before publishing.** This site is public. Never paste raw notes or chat logs into it: leave out keys, private repositories, other people's names and anything you wouldn't put on a poster.
 

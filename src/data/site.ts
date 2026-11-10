@@ -1,8 +1,7 @@
 // The one place for site-wide details. Edit these once; they flow everywhere.
 export const site = {
   name: 'Ethan Sermon',
-  tagline: 'I build apps, games and videos, and keep a record of it all here.',
-  highlight: 'apps, games and videos', // the part of the tagline that gets the highlighter
+  tagline: 'I build apps, AI tools and YouTube videos, and write down what works and what doesn’t.',
   now: 'Setting up this portfolio', // shown on the home page; change it whenever your focus changes. Empty = hidden
   email: '', // leave empty to hide the email link
   links: [
