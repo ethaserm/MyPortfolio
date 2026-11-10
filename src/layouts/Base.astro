@@ -1,5 +1,5 @@
 ---
-import '@fontsource-variable/fraunces'; // self-hosted serif for headings: no request to Google
+import '@fontsource-variable/manrope'; // self-hosted font for headings: no request to Google
 import '../styles/global.css';
 import { site, nav } from '../data/site';
 import { url } from '../lib/url';
@@ -50,19 +50,19 @@ const updated = new Date().toISOString().slice(0, 10);
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href={url('/')}><span class="brand-mark" aria-hidden="true">{initial}</span>{site.name}</a>
+        <a class="brand" href={url('/')} aria-label={`${site.name}, home`}><span class="brand-mark" aria-hidden="true">{initial}</span></a>
+        <nav aria-label="Main">
+          <ul>
+            {nav.map((item) => (
+              <li>
+                <a href={url(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <div class="head-right">
-          <nav aria-label="Main">
-            <ul>
-              {nav.map((item) => (
-                <li>
-                  <a href={url(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
           <button class="theme-toggle" type="button" aria-label="Switch between light and dark">
             <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.3M12 19.2v2.3M2.5 12h2.3M19.2 12h2.3M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>
             <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
@@ -78,13 +78,26 @@ const updated = new Date().toISOString().slice(0, 10);
     </main>
 
     <footer class="site-footer">
-      <div class="wrap">
-        <span>© {new Date().getFullYear()} {site.name} · Last updated {updated}</span>
-        <ul>
-          {site.email && <li><a href={`mailto:${site.email}`}>Email</a></li>}
-          {site.links.map((l) => <li><a href={l.href} rel="me noopener">{l.label}</a></li>)}
-          <li><a href={url('/projects/archive')}>Archive</a></li>
-        </ul>
+      <div class="wrap foot-grid">
+        <div class="foot-brand">
+          <a class="brand" href={url('/')}><span class="brand-mark" aria-hidden="true">{initial}</span>{site.name}</a>
+          <p>{site.tagline}</p>
+          <small>© {new Date().getFullYear()} {site.name} · Last updated {updated}</small>
+        </div>
+        <div>
+          <p class="foot-h">Links</p>
+          <ul>
+            {nav.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
+            <li><a href={url('/projects/archive')}>Archive</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="foot-h">Elsewhere</p>
+          <ul>
+            {site.email && <li><a href={`mailto:${site.email}`}>Email</a></li>}
+            {site.links.map((l) => <li><a href={l.href} rel="me noopener">{l.label} ↗</a></li>)}
+          </ul>
+        </div>
       </div>
     </footer>
 

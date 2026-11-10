@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import CoverArt from './CoverArt.astro';
-import Icon from './Icon.astro';
 import { categories } from '../lib/categories';
 import { url, isoDate } from '../lib/url';
 
@@ -10,21 +9,17 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, summary, cover, category, status, tags, date, draft, flow } = project.data;
+const { title, summary, cover, category, date, draft, flow } = project.data;
+const year = date.getUTCFullYear();
 ---
 
 <article class="card" data-cat={category}>
   <CoverArt cover={cover} category={category} flow={flow} />
   <div class="card-body">
-    <div class="meta between">
-      <span class="cat"><Icon name={category} size={15} />{categories[category].label}</span>
-      <span class={`chip status-${status}`}>{draft ? 'draft' : status}</span>
+    <div class="card-row">
+      <h3><a href={url(`/projects/${project.id}`)}>{title}</a></h3>
+      <span class="card-meta">{draft ? 'Draft' : categories[category].label} · <time datetime={isoDate(date)}>{year}</time></span>
     </div>
-    <h3><a href={url(`/projects/${project.id}`)}>{title}</a></h3>
     <p>{summary}</p>
-    <div class="meta between foot">
-      <span class="tags">{tags.slice(0, 3).map((t) => <span>#{t}</span>)}</span>
-      <time datetime={isoDate(date)}>{isoDate(date)}</time>
-    </div>
   </div>
 </article>

@@ -1,83 +1,41 @@
 ---
-import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import TimelineEntry from '../components/TimelineEntry.astro';
-import Icon from '../components/Icon.astro';
 import Stats from '../components/Stats.astro';
 import { site } from '../data/site';
-import { categories, categoryKeys } from '../lib/categories';
-import { getProjects, getTimeline, getVisibleCategories } from '../lib/content';
+import { getProjects, getTimeline } from '../lib/content';
 import { url } from '../lib/url';
 
-// Phone screens shown in the hero (decorative: the projects themselves have full galleries).
-import lifeToday from '../assets/previews/life-os-phone.webp';
-import lifeHabits from '../assets/previews/life-os-habits.webp';
-import pushups from '../assets/previews/pushups-stats.webp';
-
 const projects = await getProjects();
-const visibleCats = await getVisibleCategories();
-const count = (key: string) => projects.filter((p) => p.data.category === key).length;
 
 // Featured projects if any are marked, otherwise just the newest few.
 const featured = projects.filter((p) => p.data.featured).slice(0, 6);
-const showcase = featured.length > 0 ? featured : projects.slice(0, 3);
+const showcase = featured.length > 0 ? featured : projects.slice(0, 4);
 const latest = (await getTimeline()).slice(0, 4);
-
-// "Ethan Sermon" -> underline the surname. A single word is underlined whole.
-const parts = site.name.trim().split(/\s+/);
-const lastName = parts.length > 1 ? parts.pop() : undefined;
-const firstName = parts.join(' ');
-
-// Highlight a phrase inside the tagline, if it is there.
-const [before, after] = site.tagline.split(site.highlight);
-const hasHighlight = after !== undefined;
+const newest = projects[0];
+const initial = site.name.trim().charAt(0).toUpperCase() || '·';
+const github = site.links.find((l) => /github/i.test(l.href));
 ---
 
 <Base>
-  <section class="hero-panel">
-    <div class="corner"></div>
-    <div class="grain"></div>
-    <div class="hero-shots phones" aria-hidden="true">
-      <figure class="shot phone phone-1"><Image src={lifeHabits} alt="" width={420} /></figure>
-      <figure class="shot phone phone-2"><Image src={lifeToday} alt="" width={460} /></figure>
-      <figure class="shot phone phone-3"><Image src={pushups} alt="" width={420} /></figure>
-    </div>
-    <div class="hero-copy">
-      {site.now && <p class="now">Now: {site.now}</p>}
-      <h1>{lastName ? <>{firstName} <span class="u">{lastName}</span></> : <span class="u">{firstName}</span>}</h1>
-      <p class="lede">
-        {hasHighlight ? <>{before}<mark>{site.highlight}</mark>{after}</> : site.tagline}
-      </p>
-      <div class="hero-btns">
-        <a class="btn-main" href={url('/projects')}>See my projects →</a>
-        <a class="btn-alt" href={url('/timeline')}>Watch the timeline</a>
-      </div>
+  <section class="tab-hero">
+    <span class="avatar" aria-hidden="true">{initial}</span>
+    {site.now && <p class="now">Now: {site.now}</p>}
+    <h1>{site.name}</h1>
+    <p class="lede">{site.tagline}</p>
+    <div class="hero-btns">
+      {newest && <a class="btn-main" href={url(`/projects/${newest.id}`)}>My latest work</a>}
+      {github && <a class="btn-alt" href={github.href} rel="me noopener">GitHub ↗</a>}
     </div>
   </section>
 
-  <h2 class="sect-head">Browse by area</h2>
-  <ul class="tiles">
-    {categoryKeys.filter((key) => visibleCats.has(key)).map((key) => (
-      <li>
-        <a class="tile" data-cat={key} href={url(`/projects/category/${key}`)}>
-          <span class="tile-icon"><Icon name={key} size={22} /></span>
-          <span class="tile-title">{categories[key].label}</span>
-          <span class="tile-sub">{categories[key].blurb}</span>
-          <span class="tile-count">{count(key)}</span>
-        </a>
-      </li>
-    ))}
-  </ul>
-
   {showcase.length > 0 && (
-    <>
-      <h2 class="sect-head">{featured.length > 0 ? 'Featured' : 'Latest projects'}<a href={url('/projects')}>All projects →</a></h2>
-      <ul class="grid">
-        {showcase.map((p) => <li><ProjectCard project={p} /></li>)}
-      </ul>
-    </>
+    <ul class="grid">
+      {showcase.map((p) => <li><ProjectCard project={p} /></li>)}
+    </ul>
   )}
+  <p class="more"><a href={url('/projects')}>All projects →</a></p>
 
   <h2 class="sect-head">By the numbers<a href={url('/about')}>More →</a></h2>
   <Stats compact />
