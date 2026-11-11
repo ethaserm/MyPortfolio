@@ -314,9 +314,9 @@
 
 - id: pro-is-not-api
   date: 2026-08-03
-  title: Learned a Pro plan and the API are separate
+  title: Planned a free clip tool, and learned a Pro plan and the API are separate
   category: learning
-  note: So FreeOpusClip uses a local model instead.
+  note: So FreeOpusClip uses a local model. I built it in November.
   project: free-opus-clip
 
 - id: start-empty-crash

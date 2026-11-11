@@ -1,7 +1,7 @@
 ---
 title: FreeOpusClip
 summary: "My own free, local version of a paid tool that cuts long videos into short highlight clips."
-date: 2026-08-03
+date: 2026-11-05
 category: app
 status: active
 tags: [python, whisper, ollama, ffmpeg, video]
@@ -19,7 +19,7 @@ flow:
       note: ffmpeg adds pop-style captions
 ---
 
-A paid auto-clipping service costs about £30 a month. I asked if I could use my Claude Pro account to build it instead. **No: a Pro subscription and the API are separate products.** So I used a local model through Ollama, which I already had set up for [Jarvis](../jarvis/).
+I planned it in August and built it in early November. A paid auto-clipping service costs about £30 a month. I asked if I could use my Claude Pro account to build it instead. **No: a Pro subscription and the API are separate products.** So I used a local model through Ollama, which I already had set up for [Jarvis](../jarvis/).
 
 ## How it's built
 
