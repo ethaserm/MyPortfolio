@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+// The text lives in Markdown so it's easy to rewrite as you change.
+import { Content } from '../data/how-i-work.md';
+---
+
+<Base title="How I work" description="The rules I've learned building with AI, and how my way of working changed.">
+  <article class="prose">
+    <h1>How I work</h1>
+    <div class="body">
+      <Content />
+    </div>
+  </article>
+</Base>
